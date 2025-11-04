@@ -4,7 +4,7 @@ async function initMangaDB() {
   try {
     const res = await sql`
     CREATE TABLE IF NOT EXISTS manga (
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name VARCHAR(250),
   description TEXT,
   cover_image VARCHAR(250),
@@ -21,7 +21,7 @@ async function initUsersDB() {
   try {
     const res = await sql`
     CREATE TABLE IF NOT EXISTS users (
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   username VARCHAR(100),
   password VARCHAR(100),
   name_color VARCHAR(50)
@@ -35,7 +35,7 @@ async function initPostDB() {
   try {
     const res = await sql`
     CREATE TABLE IF NOT EXISTS post (
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   review TEXT,
   rating INT,
   likes INT DEFAULT 0
@@ -60,8 +60,8 @@ async function initMangaPostUser() {
 }
 
 export default async function initDB() {
-  initMangaDB();
-  initUsersDB();
-  initPostDB();
-  initMangaPostUser();
+  await initMangaDB();
+  await initUsersDB();
+  await initPostDB();
+  await initMangaPostUser();
 }

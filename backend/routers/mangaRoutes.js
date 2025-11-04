@@ -1,15 +1,14 @@
 import express from "express";
+import controllers from "../controllers/mangaController.js";
 const mangaRouter = express.Router();
 
-//OOOH I shold also inplement a manga api heh..
+// Adding mangas
+mangaRouter.post("/manga", controllers.addManga);
 
-//table should be:
-// name, cover, description, review, rating, status (finished, reading, read-later), cover, recommended by...
-
-//i want:
-//update manga,
-//delete manga
-//insert manga
+//Adding users
+mangaRouter.post("/users/", async (req, res) => {
+  controllers.addUser;
+});
 
 //Getting all mangas
 mangaRouter.get("/manga", (req, res) => {
@@ -19,13 +18,7 @@ mangaRouter.get("/manga", (req, res) => {
 //Adding a manga reccomendation
 mangaRouter.post(
   "/users/:userId/manga/:mangaId/recommendations",
-  (req, res) => {
-    const { userId, mangaId } = req.params;
-    const { review, rating } = req.body;
-    res.send(
-      `Post req- User ${userId} recommends manga ${mangaId} with rating ${rating}`
-    );
-  }
+  controllers.addMangaRec
 );
 
 //Updating a Specific manga post
