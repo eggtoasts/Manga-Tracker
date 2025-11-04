@@ -1,7 +1,12 @@
 import { sql } from "../config/db.js";
 
-const getManga = (req, res) => {
-  const id = req.param;
+const getAllMangas = async (req, res) => {
+  try {
+    const mangas = await sql`SELECT * FROM manga`;
+    res.send(mangas);
+  } catch (err) {
+    console.log("Error: ", err);
+  }
 };
 
 //For adding users
@@ -77,6 +82,30 @@ const addMangaRec = async (req, res) => {
   }
 };
 
-const controllers = { addMangaRec, addManga, addUser };
+//Updating a manga post given the id of post
+
+const updateMangaRec = async (req, res) => {
+  const { recId } = req.params;
+  const { review, rating } = req.body;
+  try {
+    //add entry to post and retrieve id
+    await sql`
+          UPDATE post SET review=${review}, rating=${rating} 
+          WHERE id = ${recId}
+         `;
+
+    res.send("Updated manga post");
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const controllers = {
+  getAllMangas,
+  addMangaRec,
+  addManga,
+  addUser,
+  updateMangaRec,
+};
 
 export default controllers;

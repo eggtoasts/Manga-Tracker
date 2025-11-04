@@ -2,17 +2,15 @@ import express from "express";
 import controllers from "../controllers/mangaController.js";
 const mangaRouter = express.Router();
 
+// Get all mangas
+mangaRouter.get("/manga", controllers.getAllMangas);
+
 // Adding mangas
 mangaRouter.post("/manga", controllers.addManga);
 
 //Adding users
 mangaRouter.post("/users/", async (req, res) => {
   controllers.addUser;
-});
-
-//Getting all mangas
-mangaRouter.get("/manga", (req, res) => {
-  res.send("This is /manga. Lists all mangas");
 });
 
 //Adding a manga reccomendation
@@ -22,12 +20,7 @@ mangaRouter.post(
 );
 
 //Updating a Specific manga post
-mangaRouter.put(
-  "/users/:userId/manga/:mangaId/recommendations/:recId",
-  (req, res) => {
-    res.send("Updated recommendation.");
-  }
-);
+mangaRouter.put("/recommendations/:recId", controllers.updateMangaRec);
 
 //Deleting a Specific manga post
 mangaRouter.delete(
