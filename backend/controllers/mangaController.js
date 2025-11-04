@@ -3,9 +3,9 @@ import { sql } from "../config/db.js";
 const getAllMangas = async (req, res) => {
   try {
     const mangas = await sql`SELECT * FROM manga`;
-    res.send(mangas);
+    res.status(200).json(mangas);
   } catch (err) {
-    console.log("Error: ", err);
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -14,15 +14,15 @@ const addUser = async (req, res) => {
   const { username, name_color, password } = req.body;
   try {
     //add entry to post and retrieve id
-    await sql`
-           INSERT INTO users (username, name_color, password)
-           VALUES (${username}, ${name_color}, ${password})
-           RETURNING id
-         `;
-
-    res.send(`Created user`);
+    const [newUser] = await sql`
+    INSERT INTO users (username, name_color, password)
+    VALUES (${username}, ${name_color}, ${password})
+    RETURNING id, username
+`;
+    res.status(201).json({ message: "Created user", user: newUser });
   } catch (err) {
     console.log("Error: ", err);
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -79,6 +79,7 @@ const addMangaRec = async (req, res) => {
     );
   } catch (err) {
     console.log("Error: ", err);
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -97,6 +98,7 @@ const updateMangaRec = async (req, res) => {
     res.send("Updated manga post");
   } catch (err) {
     console.log("Error: ", err);
+    res.status(500).json({ error: err.message });
   }
 };
 

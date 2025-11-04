@@ -9,9 +9,7 @@ mangaRouter.get("/manga", controllers.getAllMangas);
 mangaRouter.post("/manga", controllers.addManga);
 
 //Adding users
-mangaRouter.post("/users/", async (req, res) => {
-  controllers.addUser;
-});
+mangaRouter.post("/users/", controllers.addUser);
 
 //Adding a manga reccomendation
 mangaRouter.post(
