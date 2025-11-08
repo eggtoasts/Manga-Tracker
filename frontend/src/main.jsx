@@ -2,9 +2,10 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import ListPage from "./pages/ListPage.jsx";
+import MangasPage from "./pages/MangasPage.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import RecPage from "./pages/RecPage.jsx";
+import ListPage from "./pages/ListPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,11 +14,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/mangas",
-        element: <ListPage />,
+        element: <MangasPage />,
       },
       {
         path: "/recs",
         element: <RecPage />,
+      },
+      {
+        path: "/lists",
+        element: <ListPage />,
       },
     ],
   },
