@@ -38,6 +38,26 @@ function genreShortened(genreName) {
   }
 }
 
+//searches for manga based on title
+displayManga.get("/search", async (req, res) => {
+  //req body should have the query but we'll test that later xd
+
+  const { query } = req.body;
+
+  //   const query = "usogui";
+  //the %22 is just unicode for quotes
+  const URL = `https://api.jikan.moe/v4/manga?q=%22${query}%22?sfw`;
+  const searchManga = await axios.get(URL);
+  const searchMangaData = searchManga.data.data;
+
+  try {
+    console.log(searchMangaData);
+    res.json(searchMangaData);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // displays popular mangas
 displayManga.get("/mangas", async (req, res) => {
   const URL = "https://api.jikan.moe/v4/top/manga?sfw";

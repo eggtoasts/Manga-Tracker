@@ -23,6 +23,7 @@ export default function AddRecDialog({ onClose }) {
               />
             </div>
 
+            {/* whenever we press this button it should send a get request */}
             <button className="text-white bg-black rounded-xl p-1">
               Search
             </button>
