@@ -4,15 +4,22 @@ import "./index.css";
 import App from "./App.jsx";
 import ListPage from "./pages/ListPage.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
+import RecPage from "./pages/RecPage.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-  },
-  {
-    path: "/mangas",
-    element: <ListPage />,
+    children: [
+      {
+        path: "/mangas",
+        element: <ListPage />,
+      },
+      {
+        path: "/recs",
+        element: <RecPage />,
+      },
+    ],
   },
 ]);
 

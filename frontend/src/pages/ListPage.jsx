@@ -2,7 +2,7 @@ import { Plus, Search } from "lucide-react";
 
 export default function ListPage() {
   return (
-    <div className="p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
+    <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
       {/* title & bio */}
       <div className="flex">
         <div className="">

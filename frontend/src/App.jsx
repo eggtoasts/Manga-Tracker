@@ -1,3 +1,4 @@
+import { Outlet } from "react-router";
 import Navbar from "./components/Navbar";
 import "./index.css";
 import ListPage from "./pages/ListPage";
@@ -7,7 +8,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <RecPage />
+      <Outlet />
     </>
   );
 }
