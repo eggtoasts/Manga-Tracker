@@ -1,6 +1,25 @@
 import { Plus, Search } from "lucide-react";
 
+//fetching should be outside of the component
+//we're gonna access our mangas endpoint to get all popular mangas to list.
+import axios from "axios";
+import { useEffect } from "react";
+async function fetchPopularMangas() {
+  const ENDPOINT = "http://localhost:3000/api/mangas";
+
+  try {
+    const res = await axios.get(ENDPOINT);
+    const data = res.data;
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export default function ListPage() {
+  useEffect(() => {
+    console.log(fetchPopularMangas());
+  }, []);
   return (
     <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
       {/* title & bio */}

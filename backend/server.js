@@ -11,24 +11,21 @@ dotenv.config();
 const PORT = 3000;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Get request :p");
 });
 
-app.listen(PORT, () => {
-  console.log("Listening.");
-});
-
 //This handles all the manga routes, in routers/mangaRoutes
 app.use("/", mangaRouter);
 
 //For displaying manga, like when a user searches up manga or the default "popular page."
-app.use("/", displayManga);
+app.use("/api", displayManga);
 
 initDB().then(() => {
   app.listen(PORT, () => {
-    console.log("Server is running");
+    console.log("Server is running on port " + PORT);
   });
 });

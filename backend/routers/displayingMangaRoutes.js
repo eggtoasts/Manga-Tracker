@@ -20,22 +20,21 @@ displayManga.get("/mangas", async (req, res) => {
   const displayPopularMangas = await axios.get(URL);
   const popularMangasArray = displayPopularMangas.data.data;
 
-  let displayMangasArray = [];
+  try {
+    let displayMangasArray = popularMangasArray.map((manga) => {
+      return {
+        name: manga.title,
+        score: manga.score,
+        description: manga.synopsis,
+      };
+    });
 
-  popularMangasArray.map((manga) => {
-    const obj = {
-      name: manga.title,
-      score: manga.score,
-      description: manga.synopsis,
-    };
+    console.log(displayMangasArray);
 
-    displayMangasArray.push(obj);
-  });
-
-  console.log(displayMangasArray);
-
-  res.send(popularMangasArray);
-  res.end();
+    res.json(displayMangasArray);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 export default displayManga;
