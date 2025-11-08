@@ -14,6 +14,30 @@ const displayManga = express.Router();
 // genres (array)
 // themes
 
+//custom filter for genre
+// this get rid of useless genres
+function genreFilter(genreName) {
+  switch (genreName) {
+    case "Award Winning":
+      return false;
+
+    default:
+      return genreName;
+  }
+}
+
+//this shortens genre names
+function genreShortened(genreName) {
+  switch (genreName) {
+    case "Boys Love":
+      return "BL";
+    case "Girls Love":
+      return "GL";
+    default:
+      return genreName;
+  }
+}
+
 // displays popular mangas
 displayManga.get("/mangas", async (req, res) => {
   const URL = "https://api.jikan.moe/v4/top/manga?sfw";
@@ -29,8 +53,8 @@ displayManga.get("/mangas", async (req, res) => {
         score: manga.score,
         description: manga.synopsis,
         genres: manga.genres
-          .filter((g) => g.name !== "Award Winning")
-          .map((g) => g.name),
+          .filter((g) => genreFilter(g.name))
+          .map((g) => genreShortened(g.name)),
         rank: manga.rank,
         status: manga.status,
       };
