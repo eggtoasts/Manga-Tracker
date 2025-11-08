@@ -1,4 +1,5 @@
 import { BookOpen, Heart, Search } from "lucide-react";
+import { Link } from "react-router";
 export default function Navbar() {
   const iconsize = 13;
   return (
@@ -16,19 +17,19 @@ export default function Navbar() {
           <li>
             <button className="bg-black text-amber-50 flex items-center min-w-20 ">
               <BookOpen size={iconsize} className="mr-2" />
-              My List
+              <Link to="lists"> My List</Link>
             </button>
           </li>
           <li>
             <button className="bg-black text-amber-50 flex items-center min-w-20">
               <Search size={iconsize} className="mr-2" />
-              Browser
+              <Link to="mangas">Browse</Link>
             </button>
           </li>
           <li>
             <button className="bg-black text-amber-50 flex items-center">
               <Heart size={iconsize} className="mr-2" />
-              Recommendations
+              <Link to="recs">Recommendations</Link>
             </button>
           </li>
         </ul>
