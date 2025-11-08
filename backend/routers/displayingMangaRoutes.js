@@ -52,8 +52,22 @@ displayManga.get("/search", async (req, res) => {
   const searchMangaData = searchManga.data.data;
 
   try {
-    console.log(searchMangaData);
-    res.json(searchMangaData);
+    let searchMangaArray = searchMangaData.map((manga) => {
+      return {
+        name: manga.title,
+        image: manga.images.jpg.image_url,
+        authors: manga.authors.map((a) => a.name),
+        score: manga.score,
+        description: manga.synopsis,
+        genres: manga.genres
+          .filter((g) => genreFilter(g.name))
+          .map((g) => genreShortened(g.name)),
+        rank: manga.rank,
+        status: manga.status,
+      };
+    });
+    console.log(searchMangaArray);
+    res.json(searchMangaArray);
   } catch (error) {
     console.log(error);
   }

@@ -1,6 +1,7 @@
 import { Search } from "lucide-react";
 import axios from "axios";
 import { useRef, useEffect } from "react";
+import { useState } from "react";
 //fetching data from searching manga titles
 
 async function fetchSearchData(query) {
@@ -9,17 +10,28 @@ async function fetchSearchData(query) {
 
   try {
     const res = await axios.get(ENDPOINT);
-
-    console.log(res.data);
-    return res.data;
+    const mangaArray = res.data;
+    return mangaArray;
   } catch (error) {}
 }
 
 export default function AddRecDialog({ onClose }) {
+  const [searchedMangas, setSearchedMangas] = useState([]);
+
   const inputRef = useRef(null);
   useEffect(() => {
     console.log(inputRef.current.value);
   }, [inputRef.current]);
+
+  //put this in a seperate file later
+  function showGenrePlus(index) {
+    if (index === 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       {/* le dialog */}
@@ -33,9 +45,10 @@ export default function AddRecDialog({ onClose }) {
           </h2>
 
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              fetchSearchData(inputRef.current.value);
+              const arr = await fetchSearchData(inputRef.current.value);
+              setSearchedMangas(arr);
             }}
             className="flex gap-2 items-center"
           >
@@ -56,6 +69,46 @@ export default function AddRecDialog({ onClose }) {
           </form>
 
           {/* should b where the manga appears */}
+
+          <div className="h-60 flex flex-col overflow-y-scroll gap-3 mt-2 ">
+            {searchedMangas.map((manga) => {
+              return (
+                // the card
+                <button className="hover:bg-blue-200/20 flex text-sm border border-gray-300 rounded p-3 text-left">
+                  <img
+                    src={manga.image}
+                    className="w-16 h-24 object-cover rounded-lg border border-gray-300"
+                  ></img>
+
+                  <div className="px-2">
+                    <p>{manga.name}</p>
+                    <p className=" line-clamp-2 text-gray-500">
+                      {manga.description
+                        ? manga.description
+                        : "No description."}
+                    </p>
+
+                    {/* put this in a component file too since we reused this */}
+                    <div className="flex gap-1 pt-2">
+                      {manga.genres
+                        .slice(0, 4)
+                        .map((g, index) =>
+                          !showGenrePlus(index) ? (
+                            <span className=" px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
+                              {g}
+                            </span>
+                          ) : (
+                            <span className="px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
+                              {`+${manga.genres.length - 3}`}
+                            </span>
+                          )
+                        )}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
