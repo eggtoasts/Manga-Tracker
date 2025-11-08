@@ -39,14 +39,15 @@ function genreShortened(genreName) {
 }
 
 //searches for manga based on title
+
+//http://localhost:3000/api/search?title=usogui    we use query to search for specific title since we cant send req bodies in frontend
 displayManga.get("/search", async (req, res) => {
   //req body should have the query but we'll test that later xd
 
-  const { query } = req.body;
+  const { title } = req.query;
 
-  //   const query = "usogui";
   //the %22 is just unicode for quotes
-  const URL = `https://api.jikan.moe/v4/manga?q=%22${query}%22?sfw`;
+  const URL = `https://api.jikan.moe/v4/manga?q=%22${title}%22?sfw`;
   const searchManga = await axios.get(URL);
   const searchMangaData = searchManga.data.data;
 
