@@ -25,6 +25,14 @@ export default function ListPage() {
 
   //create a function tht checks genre index and decides if we show (+)
 
+  function showGenrePlus(index) {
+    if (index === 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   useEffect(() => {
     const getPopularMangas = async () => {
       const arr = await fetchPopularMangas();
@@ -55,7 +63,7 @@ export default function ListPage() {
         {popularMangas.map((manga) => {
           return (
             <div className=" flex flex-col border rounded-xl border-gray-300">
-              <div className="aspect-3/4 overflow-hidden cursor-pointer">
+              <div className="rounded-xl aspect-3/4 overflow-hidden cursor-pointer">
                 <img
                   src={manga.image}
                   className="object-cover hover:scale-105 transition-transform durection-300 w-full h-full rounded-t-xl"
@@ -64,7 +72,7 @@ export default function ListPage() {
               <div className="flex flex-col p-3 [&>div]:pb-2">
                 <div className="[&:last-child]:pb-6 flex-1 ">
                   {/* name of manga */}
-                  <h3 className="mb-2 line-clamp-2 cursor-pointer hover:text-primary">
+                  <h3 className="line-clamp-1 mb-2 cursor-pointer hover:text-primary">
                     {manga.name}
                   </h3>
 
@@ -85,10 +93,20 @@ export default function ListPage() {
                     </span>
                   </div>
                   {/* genres */}
-                  <div className="">
-                    {manga.genres.slice(0, 3).map((g, index) => (
-                      <span className="text-sm font-light">{g}</span>
-                    ))}
+                  <div className="flex gap-1">
+                    {manga.genres
+                      .slice(0, 4)
+                      .map((g, index) =>
+                        !showGenrePlus(index) ? (
+                          <span className=" px-1 bg-gray-200/20 rounded-2xl text-sm font-light">
+                            {g}
+                          </span>
+                        ) : (
+                          <span className="px-1 bg-gray-200/20 rounded-2xl text-sm font-light">
+                            {`+${manga.genres.length - 3}`}
+                          </span>
+                        )
+                      )}
                   </div>
                 </div>
 
