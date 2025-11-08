@@ -24,8 +24,15 @@ displayManga.get("/mangas", async (req, res) => {
     let displayMangasArray = popularMangasArray.map((manga) => {
       return {
         name: manga.title,
+        image: manga.images.jpg.large_image_url,
+        authors: manga.authors.map((a) => a.name),
         score: manga.score,
         description: manga.synopsis,
+        genres: manga.genres
+          .filter((g) => g.name !== "Award Winning")
+          .map((g) => g.name),
+        rank: manga.rank,
+        status: manga.status,
       };
     });
 

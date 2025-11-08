@@ -4,6 +4,7 @@ import { Plus, Search } from "lucide-react";
 //we're gonna access our mangas endpoint to get all popular mangas to list.
 import axios from "axios";
 import { useEffect } from "react";
+import { useState } from "react";
 async function fetchPopularMangas() {
   const ENDPOINT = "http://localhost:3000/api/mangas";
 
@@ -11,14 +12,26 @@ async function fetchPopularMangas() {
     const res = await axios.get(ENDPOINT);
     const data = res.data;
     console.log(data);
+    return data;
   } catch (error) {
     console.error(error);
   }
 }
 
 export default function ListPage() {
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [popularMangas, setPopularMangas] = useState([]);
+
+  //create a function tht checks genre index and decides if we show (+)
+
   useEffect(() => {
-    console.log(fetchPopularMangas());
+    const getPopularMangas = async () => {
+      const arr = await fetchPopularMangas();
+      setPopularMangas(arr);
+      console.log(popularMangas);
+    };
+    getPopularMangas();
   }, []);
   return (
     <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
@@ -39,37 +52,44 @@ export default function ListPage() {
       <div className="pt-6 grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {/* this the card */}
 
-        {[1, 1, 1, 1, 1].map((x) => {
+        {popularMangas.map((manga) => {
           return (
             <div className=" flex flex-col border rounded-xl border-gray-300">
-              <div className="aspect-3/2 w-full h-60 border rounded-t-xl"></div>
+              <div className="aspect-3/4 overflow-hidden cursor-pointer">
+                <img
+                  src={manga.image}
+                  className="object-cover hover:scale-105 transition-transform durection-300 w-full h-full rounded-t-xl"
+                ></img>
+              </div>
               <div className="flex flex-col p-3 [&>div]:pb-2">
-                {/* name of manga */}
-                <div className="">Berserk</div>
+                <div className="[&:last-child]:pb-6 flex-1 ">
+                  {/* name of manga */}
+                  <h3 className="mb-2 line-clamp-2 cursor-pointer hover:text-primary">
+                    {manga.name}
+                  </h3>
 
-                {/* author */}
-                <div className="text-gray-500 text-sm">by idk i forgot</div>
+                  {/* description */}
+                  <p className="line-clamp-3 mb-3 text-gray-500 text-sm">
+                    {manga.description}
+                  </p>
 
-                {/* description */}
-                <div className="text-gray-500 text-sm">
-                  Guts, a former mercenary now known as the Black Swordsman, is
-                  out for revenge...
-                </div>
+                  {/* rating (if the api has any) */}
+                  <div className="">
+                    <span className="bg-gray-300/80 rounded-full w-min px-1 text-sm">
+                      {manga.score}
+                    </span>
 
-                {/* rating (if the api has any) */}
-                <div className="">
-                  <span className="bg-gray-300/80 rounded-full w-min px-1 text-sm">
-                    9.47
-                  </span>
-
-                  {/* pages */}
-                  <span className="bg-gray-300/80 rounded-full w-min px-1 text-sm">
-                    1000 ch
-                  </span>
-                </div>
-                {/* genres */}
-                <div className="">
-                  <span className="text-sm">Thriller</span>
+                    {/* pages */}
+                    <span className="bg-gray-300/80 rounded-full w-min px-1 text-sm">
+                      1000 ch
+                    </span>
+                  </div>
+                  {/* genres */}
+                  <div className="">
+                    {manga.genres.slice(0, 3).map((g, index) => (
+                      <span className="text-sm font-light">{g}</span>
+                    ))}
+                  </div>
                 </div>
 
                 <button className="mt-2 p-2 bg-black text-white  rounded-full">
