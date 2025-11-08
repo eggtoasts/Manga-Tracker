@@ -1,4 +1,4 @@
-import { Plus, Search, Star } from "lucide-react";
+import { Loader2, Plus, Search, Star } from "lucide-react";
 
 //fetching should be outside of the component
 //we're gonna access our mangas endpoint to get all popular mangas to list.
@@ -52,7 +52,7 @@ export default function ListPage() {
   }, []);
   return (
     <>
-      <div className="mx-10 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
+      <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
         {/* title & bio */}
         <div className="flex">
           <div className="">
@@ -68,7 +68,9 @@ export default function ListPage() {
         </div>
 
         {loading ? (
-          <span>Loading</span>
+          <div className="mt-80">
+            <Loader2 className="loading-animation self-center justify-self-center" />
+          </div>
         ) : (
           <div className="pt-6 grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {/* this the card */}
@@ -107,16 +109,16 @@ export default function ListPage() {
                         </span>
                       </div>
                       {/* genres */}
-                      <div className="flex gap-1">
+                      <div className="flex gap-1 pt-3">
                         {manga.genres
                           .slice(0, 4)
                           .map((g, index) =>
                             !showGenrePlus(index) ? (
-                              <span className=" px-1 bg-gray-200/20 rounded-2xl text-sm font-light">
+                              <span className=" px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
                                 {g}
                               </span>
                             ) : (
-                              <span className="px-1 bg-gray-200/20 rounded-2xl text-sm font-light">
+                              <span className="px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
                                 {`+${manga.genres.length - 3}`}
                               </span>
                             )

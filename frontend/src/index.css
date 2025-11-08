@@ -3,3 +3,18 @@
 input:focus {
   outline: none;
 }
+
+@layer components {
+  @keyframes loading {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-animation {
+    animation: loading 1s linear infinite;
+  }
+}
