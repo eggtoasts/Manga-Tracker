@@ -1,10 +1,21 @@
-import { User, Star } from "lucide-react";
+import { User, Star, Search } from "lucide-react";
 import ListPage from "./ListPage";
 export default function RecPage() {
   return (
-    <>
-      <ListPage />
-
+    <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
+      {/* title & bio */}
+      <div className="flex">
+        <div className="">
+          <h1 className="text-lg font-medium">Browse Manga</h1>
+          <h2 className="text-2xs text-gray-800">
+            Discover and add manga to your list!
+          </h2>
+        </div>
+      </div>
+      <div className="w-fill flex items-center rounded-bl-sm bg-gray-100 ">
+        <Search size={15} className="mx-2 mr-2" />
+        <input type="text" className=" w-xl py-1" />
+      </div>
       <div className="pt-5 flex flex-col items-center">
         {/* what each card should look like :p */}
         <div className=" w-4/6 p-3 border-2 flex flex-col rounded-lg">
@@ -59,6 +70,6 @@ export default function RecPage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
