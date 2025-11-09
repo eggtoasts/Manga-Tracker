@@ -9,23 +9,6 @@ const getAllMangas = async (req, res) => {
   }
 };
 
-//For adding users
-const addUser = async (req, res) => {
-  const { username, name_color, password } = req.body;
-  try {
-    //add entry to post and retrieve id
-    const [newUser] = await sql`
-    INSERT INTO users (username, name_color, password)
-    VALUES (${username}, ${name_color}, ${password})
-    RETURNING id, username
-`;
-    res.status(201).json({ message: "Created user", user: newUser });
-  } catch (err) {
-    console.log("Error: ", err);
-    res.status(500).json({ error: err.message });
-  }
-};
-
 //For adding manga into the database
 const addManga = async (req, res) => {
   const { name, description, cover_image, authors, rating, genres } = req.body;
@@ -106,7 +89,6 @@ const controllers = {
   getAllMangas,
   addMangaRec,
   addManga,
-  addUser,
   updateMangaRec,
 };
 

@@ -1,3 +1,7 @@
+async function userRequest() {
+  const ENDPOINT = "";
+}
+
 export default function LogInPage() {
   const logIn = async (e) => {
     e.preventDefault();

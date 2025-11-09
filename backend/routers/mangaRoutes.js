@@ -8,9 +8,6 @@ mangaRouter.get("/manga", controllers.getAllMangas);
 // Adding mangas
 mangaRouter.post("/manga", controllers.addManga);
 
-//Adding users
-mangaRouter.post("/users/", controllers.addUser);
-
 //Adding a manga reccomendation
 mangaRouter.post(
   "/users/:userId/manga/:mangaId/recommendations",

@@ -1,7 +1,28 @@
+import axios from "axios";
+async function connectToSignUpRoute(username, email, password) {
+  // tbh i dont think we rlly need email
+  console.log(username, email, password);
+  const ENDPOINT = "http://localhost:3000/users/signup";
+  try {
+    const res = await axios.post(ENDPOINT, {
+      username: username,
+      password: password,
+    });
+    const data = res.data;
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export default function SignUpPage() {
   //this should go to signup route
   const signUp = async (e) => {
     e.preventDefault();
+
+    const { username, email, password } = e.target;
+
+    connectToSignUpRoute(username.value, email.value, password.value);
   };
 
   return (
@@ -9,8 +30,9 @@ export default function SignUpPage() {
       <div className=" text-sm bg-white fixed top-[50%] left-[50%] z-50 w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg max-w-md">
         <form onSubmit={(e) => signUp(e)} className="flex flex-col">
           <h2 className=" font-semibold">Create an Account</h2>
-          <label className="font-semibold">Name</label>
+          <label className="font-semibold">Username</label>
           <input
+            name="username"
             type="password"
             placeholder="p"
             className=" rounded-md border px-3 py-1 text-base"
@@ -18,6 +40,7 @@ export default function SignUpPage() {
 
           <label className="font-semibold">Email</label>
           <input
+            name="email"
             type="password"
             placeholder="p"
             className=" rounded-md border px-3 py-1 text-base"
@@ -25,6 +48,7 @@ export default function SignUpPage() {
 
           <label className="font-semibold">Password</label>
           <input
+            name="password"
             type="password"
             placeholder="p"
             className=" rounded-md border px-3 py-1 text-base"
