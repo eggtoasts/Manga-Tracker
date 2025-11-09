@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import axios from "axios";
 import { useRef, useEffect } from "react";
 import { useState } from "react";
@@ -15,7 +15,7 @@ async function fetchSearchData(query) {
   } catch (error) {}
 }
 
-export default function AddRecDialog({ onClose }) {
+export default function AddRecDialog({ closeDialog }) {
   const [searchedMangas, setSearchedMangas] = useState([]);
 
   const inputRef = useRef(null);
@@ -35,9 +35,13 @@ export default function AddRecDialog({ onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       {/* le dialog */}
+
       <div className="rounded p-3 bg-white fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10">
         {/* header stuff */}
         <div className="flex flex-col">
+          <button className="ml-auto cursor-pointer">
+            <X onClick={() => closeDialog()} size={"13"} />
+          </button>
           <h1 className="font-semibold">Search for Manga to Recommend</h1>
           <h2 className="text-gray-500 text-sm">
             Type in the title of the manga you want to recommend to the

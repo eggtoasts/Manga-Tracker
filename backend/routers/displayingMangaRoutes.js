@@ -47,7 +47,7 @@ displayManga.get("/search", async (req, res) => {
   const { title } = req.query;
 
   //the %22 is just unicode for quotes
-  const URL = `https://api.jikan.moe/v4/manga?q=%22${title}%22?sfw`;
+  const URL = `https://api.jikan.moe/v4/manga?q=%22${title}%22&sfw=true`;
   const searchManga = await axios.get(URL);
   const searchMangaData = searchManga.data.data;
 

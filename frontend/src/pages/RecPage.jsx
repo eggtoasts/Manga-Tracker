@@ -14,7 +14,7 @@ export default function RecPage() {
 
   return (
     <>
-      {isDialogOpen === true && <AddRecDialog />}
+      {isDialogOpen === true && <AddRecDialog closeDialog={closeDialog} />}
       <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
         {/* title & bio */}
         <div className="flex">
