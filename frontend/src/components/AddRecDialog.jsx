@@ -59,8 +59,12 @@ export default function AddRecDialog({ closeDialog }) {
 
           <form
             onSubmit={async (e) => {
-              setHasTyped(true);
               e.preventDefault();
+
+              if (inputRef.current.value === "") {
+                return;
+              }
+              setHasTyped(true);
               const arr = await fetchSearchData(
                 inputRef.current.value,
                 setLoading,
