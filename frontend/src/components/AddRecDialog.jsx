@@ -19,13 +19,11 @@ async function fetchSearchData(query, setLoading, setError) {
   }
 }
 
-export default function AddRecDialog({ closeDialog }) {
+export default function AddRecDialog({ closeDialog, setSelectedManga }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchedMangas, setSearchedMangas] = useState([]);
   const [hasTyped, setHasTyped] = useState(false);
-
-  const [selectedManga, setSelectedManga] = useState(null);
 
   const inputRef = useRef(null);
   useEffect(() => {
@@ -47,8 +45,8 @@ export default function AddRecDialog({ closeDialog }) {
 
       <div className="rounded p-3 bg-white fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10">
         {/* header stuff */}
-        <div className="flex flex-col">
-          <button className="ml-auto cursor-pointer">
+        <div className="relative flex flex-col">
+          <button className="absolute right-[1%] ml-auto cursor-pointer">
             <X onClick={() => closeDialog()} size={"13"} />
           </button>
           <h1 className="font-semibold">Search for Manga to Recommend</h1>
@@ -72,9 +70,9 @@ export default function AddRecDialog({ closeDialog }) {
               );
               setSearchedMangas(arr);
             }}
-            className="flex gap-2 items-center"
+            className="flex gap-2 items-center pt-3"
           >
-            <div className="w-full items-center flex bg-gray-100 px-2 rounded-2xl gap-2">
+            <div className="w-full items-center flex bg-gray-100 px-2 rounded-2xl gap-2 pt-2">
               <Search size={15} color={"gray"} />
               <input
                 ref={inputRef}
@@ -100,7 +98,15 @@ export default function AddRecDialog({ closeDialog }) {
                 searchedMangas.map((manga) => {
                   return (
                     // the card
-                    <button className="hover:bg-blue-200/20 flex text-sm border border-gray-300 rounded p-3 text-left">
+                    <button
+                      onClick={() =>
+                        setSelectedManga({
+                          selected: true,
+                          manga: manga,
+                        })
+                      }
+                      className="hover:bg-blue-200/20 flex text-sm border border-gray-300 rounded p-3 text-left"
+                    >
                       <img
                         src={manga.image}
                         className="w-16 h-24 object-cover rounded-lg border border-gray-300"
@@ -136,7 +142,11 @@ export default function AddRecDialog({ closeDialog }) {
                 })
               )
             ) : (
-              <div>um </div>
+              <div className=" h-full flex self-center">
+                <div className="justify-self-center self-center text-gray-500 ">
+                  Search for a manga title to get started.
+                </div>
+              </div>
             )}
           </div>
         </div>

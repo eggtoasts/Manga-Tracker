@@ -1,9 +1,15 @@
 import { User, Star, Search, Plus } from "lucide-react";
 import ListPage from "./MangasPage";
 import AddRecDialog from "../components/AddRecDialog";
+import AddRecForm from "../components/AddRecForm";
 import { useState } from "react";
 export default function RecPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [selectedManga, setSelectedManga] = useState({
+    selected: false,
+    manga: null,
+  });
 
   const openDialog = () => {
     setIsDialogOpen(true);
@@ -14,7 +20,16 @@ export default function RecPage() {
 
   return (
     <>
-      {isDialogOpen === true && <AddRecDialog closeDialog={closeDialog} />}
+      {isDialogOpen === true &&
+        //If we selected a manga through the addRecDialog, this form shows instead.
+        (selectedManga.selected ? (
+          <AddRecForm selectedManga={selectedManga} closeDialog={closeDialog} />
+        ) : (
+          <AddRecDialog
+            closeDialog={closeDialog}
+            setSelectedManga={setSelectedManga}
+          />
+        ))}
       <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
         {/* title & bio */}
         <div className="flex">
