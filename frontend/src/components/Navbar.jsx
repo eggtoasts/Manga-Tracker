@@ -1,9 +1,28 @@
 import { BookOpen, Heart, Search } from "lucide-react";
 import { Link } from "react-router";
+import { useState } from "react";
+import SignUpPage from "./SignUpPage";
+import LogInPage from "./LogInPage";
+
 export default function Navbar() {
+  const [selectedDialog, setSelectedDialog] = useState(null);
+
+  //tells us which form user has opened
+
+  const openForm = (type) => {
+    // if its the same type, toggle it off (null)
+    if (type === selectedDialog) {
+      setSelectedDialog(null);
+    } else {
+      setSelectedDialog(type);
+    }
+  };
+
   const iconsize = 13;
   return (
     <>
+      {selectedDialog &&
+        (selectedDialog === "sign-up" ? <SignUpPage /> : <LogInPage />)}
       {/* nav */}
       <div className="flex justify-between h-15.5items-center p-5 border-b-1 border-gray-300">
         {/* //title & logo */}
@@ -12,26 +31,53 @@ export default function Navbar() {
           <div>MangaList</div>
         </div>
 
-        <ul className="flex gap-5 hover:cursor-pointer [&_button]:rounded-md [&_button]:font-medium [&_button]:p-2 [&_button]:text-xs [&_button]:justify-center">
+        <ul className="flex gap-3  [&_button]:hover:cursor-pointer [&_button]:rounded-md [&_button]:font-medium [&_button]:px-2 [&_button]:py-2  [&_button]:text-xs [&_button]:justify-center">
           {/* //navigation links */}
+
           <li>
-            <button className="bg-black text-amber-50 flex items-center min-w-20 ">
-              <BookOpen size={iconsize} className="mr-2" />
-              <Link to="lists"> My List</Link>
-            </button>
+            <Link to="lists">
+              <button className="bg-black text-amber-50 flex items-center min-w-20 ">
+                <BookOpen size={iconsize} className="mr-2" />
+                My List
+              </button>
+            </Link>
           </li>
           <li>
-            <button className="bg-black text-amber-50 flex items-center min-w-20">
-              <Search size={iconsize} className="mr-2" />
-              <Link to="mangas">Browse</Link>
-            </button>
+            <Link to="mangas">
+              <button className="bg-black text-amber-50 flex items-center min-w-20">
+                <Search size={iconsize} className="mr-2" />
+                Browse
+              </button>
+            </Link>
           </li>
           <li>
-            <button className="bg-black text-amber-50 flex items-center">
-              <Heart size={iconsize} className="mr-2" />
-              <Link to="recs">Recommendations</Link>
-            </button>
+            <Link to="recs">
+              <button className="bg-black text-amber-50 flex items-center">
+                <Heart size={iconsize} className="mr-2" />
+                Reviews
+              </button>
+            </Link>
           </li>
+
+          {/* sign in and sign up */}
+          <div className="border-l border-l-gray-400/50 pl-3 flex gap-3">
+            <li>
+              <button
+                onClick={() => openForm("sign-in")}
+                className="border border-gray-300 text-black flex items-center min-w-20 "
+              >
+                Sign In
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => openForm("sign-up")}
+                className="bg-black text-amber-50 flex items-center min-w-20 "
+              >
+                Create an Account
+              </button>
+            </li>
+          </div>
         </ul>
       </div>
     </>

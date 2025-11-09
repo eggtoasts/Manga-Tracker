@@ -38,9 +38,9 @@ export default function RecPage() {
         {/* title & bio */}
         <div className="flex">
           <div className="">
-            <h1 className="text-lg font-medium">Community Recommendations</h1>
+            <h1 className="text-lg font-medium">Community Reviews</h1>
             <h2 className="text-2xs text-gray-800">
-              Discover manga recommended by the community
+              Discover manga reviewed by the community
             </h2>
           </div>
 
@@ -48,7 +48,7 @@ export default function RecPage() {
             onClick={openDialog}
             className="cursor-pointer h-8 w-40 flex bg-black text-white items-center justify-center text-xs rounded-sm px-2 font-medium ml-auto"
           >
-            <Plus size={15} /> <div className="">Add Recommendations</div>
+            <Plus size={15} /> <div className="">Add Review</div>
           </button>
         </div>
         <div className="w-fill flex items-center rounded-bl-sm bg-gray-100 ">
