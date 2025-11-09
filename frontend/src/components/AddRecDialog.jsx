@@ -1,22 +1,31 @@
-import { Search, X } from "lucide-react";
+import { Search, X, Loader2 } from "lucide-react";
 import axios from "axios";
 import { useRef, useEffect } from "react";
 import { useState } from "react";
 //fetching data from searching manga titles
 
-async function fetchSearchData(query) {
+async function fetchSearchData(query, setLoading, setError) {
+  setLoading(true);
   console.log(query);
   const ENDPOINT = `http://localhost:3000/api/search?title=${query}`;
 
   try {
     const res = await axios.get(ENDPOINT);
     const mangaArray = res.data;
+    setLoading(false);
     return mangaArray;
-  } catch (error) {}
+  } catch (error) {
+    setError(error);
+  }
 }
 
 export default function AddRecDialog({ closeDialog }) {
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [searchedMangas, setSearchedMangas] = useState([]);
+  const [hasTyped, setHasTyped] = useState(false);
+
+  const [selectedManga, setSelectedManga] = useState(null);
 
   const inputRef = useRef(null);
   useEffect(() => {
@@ -50,8 +59,13 @@ export default function AddRecDialog({ closeDialog }) {
 
           <form
             onSubmit={async (e) => {
+              setHasTyped(true);
               e.preventDefault();
-              const arr = await fetchSearchData(inputRef.current.value);
+              const arr = await fetchSearchData(
+                inputRef.current.value,
+                setLoading,
+                setError
+              );
               setSearchedMangas(arr);
             }}
             className="flex gap-2 items-center"
@@ -67,7 +81,7 @@ export default function AddRecDialog({ closeDialog }) {
             </div>
 
             {/* whenever we press this button it should send a get request */}
-            <button className="text-white bg-black rounded-xl p-1">
+            <button className="text-white bg-black rounded-md text-xs p-2 font-medium">
               Search
             </button>
           </form>
@@ -75,43 +89,51 @@ export default function AddRecDialog({ closeDialog }) {
           {/* should b where the manga appears */}
 
           <div className="h-60 flex flex-col overflow-y-scroll gap-3 mt-2 ">
-            {searchedMangas.map((manga) => {
-              return (
-                // the card
-                <button className="hover:bg-blue-200/20 flex text-sm border border-gray-300 rounded p-3 text-left">
-                  <img
-                    src={manga.image}
-                    className="w-16 h-24 object-cover rounded-lg border border-gray-300"
-                  ></img>
+            {hasTyped ? (
+              loading ? (
+                <Loader2 className="loading-animation self-center justify-self-center" />
+              ) : (
+                searchedMangas.map((manga) => {
+                  return (
+                    // the card
+                    <button className="hover:bg-blue-200/20 flex text-sm border border-gray-300 rounded p-3 text-left">
+                      <img
+                        src={manga.image}
+                        className="w-16 h-24 object-cover rounded-lg border border-gray-300"
+                      ></img>
 
-                  <div className="px-2">
-                    <p>{manga.name}</p>
-                    <p className=" line-clamp-2 text-gray-500">
-                      {manga.description
-                        ? manga.description
-                        : "No description."}
-                    </p>
+                      <div className="px-2">
+                        <p>{manga.name}</p>
+                        <p className=" line-clamp-2 text-gray-500">
+                          {manga.description
+                            ? manga.description
+                            : "No description."}
+                        </p>
 
-                    {/* put this in a component file too since we reused this */}
-                    <div className="flex gap-1 pt-2">
-                      {manga.genres
-                        .slice(0, 4)
-                        .map((g, index) =>
-                          !showGenrePlus(index) ? (
-                            <span className=" px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
-                              {g}
-                            </span>
-                          ) : (
-                            <span className="px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
-                              {`+${manga.genres.length - 3}`}
-                            </span>
-                          )
-                        )}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
+                        {/* put this in a component file too since we reused this */}
+                        <div className="flex gap-1 pt-2">
+                          {manga.genres
+                            .slice(0, 4)
+                            .map((g, index) =>
+                              !showGenrePlus(index) ? (
+                                <span className=" px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
+                                  {g}
+                                </span>
+                              ) : (
+                                <span className="px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
+                                  {`+${manga.genres.length - 3}`}
+                                </span>
+                              )
+                            )}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })
+              )
+            ) : (
+              <div>um </div>
+            )}
           </div>
         </div>
       </div>
