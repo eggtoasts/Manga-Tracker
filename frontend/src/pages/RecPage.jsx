@@ -23,7 +23,11 @@ export default function RecPage() {
       {isDialogOpen === true &&
         //If we selected a manga through the addRecDialog, this form shows instead.
         (selectedManga.selected ? (
-          <AddRecForm selectedManga={selectedManga} closeDialog={closeDialog} />
+          <AddRecForm
+            setSelectedManga={setSelectedManga}
+            selectedManga={selectedManga}
+            closeDialog={closeDialog}
+          />
         ) : (
           <AddRecDialog
             closeDialog={closeDialog}

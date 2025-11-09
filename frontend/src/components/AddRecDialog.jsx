@@ -43,7 +43,7 @@ export default function AddRecDialog({ closeDialog, setSelectedManga }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       {/* le dialog */}
 
-      <div className="rounded p-3 bg-white fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10">
+      <div className="rounded-xl p-3 bg-white fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10">
         {/* header stuff */}
         <div className="relative flex flex-col">
           <button className="absolute right-[1%] ml-auto cursor-pointer">
@@ -90,7 +90,7 @@ export default function AddRecDialog({ closeDialog, setSelectedManga }) {
 
           {/* should b where the manga appears */}
 
-          <div className="h-60 flex flex-col overflow-y-scroll gap-3 mt-2 ">
+          <div className="h-80 flex flex-col overflow-y-scroll gap-3 mt-2 ">
             {hasTyped ? (
               loading ? (
                 <Loader2 className="loading-animation self-center justify-self-center" />
