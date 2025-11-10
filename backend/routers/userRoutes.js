@@ -8,6 +8,23 @@ dotenv.config();
 
 const userRouter = express.Router();
 
+//Getting user info (if we have the json web token)
+userRouter.get("/profile", authenticateToken, async (req, res) => {
+  // get user id
+  const userId = req.user.id;
+  try {
+    // search for username and name_color in database
+    const [userInfo] =
+      await sql`SELECT username, name_color FROM users WHERE users.id =${userId}`;
+
+    // return that info!
+    res.status(200).json({ user: userInfo });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server error");
+  }
+});
+
 //Adding users (Sign up)
 userRouter.post("/signup", async (req, res) => {
   // User auth
