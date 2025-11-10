@@ -1,5 +1,5 @@
 async function userRequest() {
-  const ENDPOINT = "";
+  const ENDPOINT = "http://localhost:3000/users/login";
 }
 
 export default function LogInPage() {
