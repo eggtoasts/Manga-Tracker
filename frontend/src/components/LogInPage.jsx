@@ -1,11 +1,27 @@
-async function userRequest() {
+import axios from "axios";
+
+async function userRequest(username, password) {
   const ENDPOINT = "http://localhost:3000/users/login";
+  try {
+    const res = await axios.post(ENDPOINT, {
+      username: username,
+      password: password,
+    });
+    const data = res.data;
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export default function LogInPage() {
   const logIn = async (e) => {
     e.preventDefault();
+
+    const { username, password } = e.target;
+    userRequest(username.value, password.value);
   };
+
   return (
     <>
       <div className="text-sm absolute top-16 right-4 w-80 bg-white border rounded-lg shadow-lg z-50 p-6">
@@ -17,6 +33,7 @@ export default function LogInPage() {
             className="  rounded-md border border-gray-300 px-2.5 py-0.5 text-base"
             type="text"
             placeholder=""
+            name="username"
           />
 
           <label>Password</label>
@@ -24,6 +41,7 @@ export default function LogInPage() {
             className="  rounded-md border border-gray-300 px-2.5 py-0.5 text-base"
             id="password"
             type="password"
+            name="password"
           />
 
           <button className="mr-auto px-3 py-1 bg-black rounded-sm text-white">

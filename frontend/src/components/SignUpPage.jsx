@@ -38,7 +38,7 @@ export default function SignUpPage() {
 
     const { username, email, password } = e.target;
 
-    // connectToSignUpRoute(username.value, email.value, password.value);
+    connectToSignUpRoute(username.value, email.value, password.value);
   };
 
   return (

@@ -8,7 +8,7 @@ dotenv.config();
 
 const userRouter = express.Router();
 
-//Adding users
+//Adding users (Sign up)
 userRouter.post("/signup", async (req, res) => {
   // User auth
   const { username, password } = req.body;
