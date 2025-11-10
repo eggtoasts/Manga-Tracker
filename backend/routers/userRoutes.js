@@ -21,9 +21,7 @@ userRouter.post("/signup", async (req, res) => {
     username: username,
     password: hashedPassword,
   };
-
   //   id is handled by database (serial)
-
   try {
     //add entry to post and retrieve id
     const [newUser] = await sql`
@@ -35,6 +33,40 @@ userRouter.post("/signup", async (req, res) => {
   } catch (err) {
     console.log("Error: ", err);
     res.status(500).json({ error: err.message });
+  }
+});
+
+//User logging in auth
+userRouter.post("/login", async (req, res) => {
+  //auth part
+  const { username, password } = req.body;
+
+  // check if the username inputted matches a existing username.
+  try {
+    const selectedUser =
+      await sql`SELECT * FROM users WHERE users.username = ${username}`;
+
+    const user = selectedUser[0];
+    if (!selectedUser) {
+      return res.send("user doesn't exist");
+    }
+
+    //check if user's form password matches the hashed password
+    try {
+      console.log(password);
+      console.log(user.password);
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        return res.send("user/pass does not match.");
+      } else {
+        // do JWT thing here
+        return res.status(200).send("password matches");
+      }
+    } catch (err) {
+      return res.send("matching hashes failed");
+    }
+  } catch (err) {
+    return res.send("bad");
   }
 });
 
