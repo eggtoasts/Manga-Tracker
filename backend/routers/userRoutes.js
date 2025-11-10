@@ -2,6 +2,9 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sql } from "../config/db.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const userRouter = express.Router();
 
@@ -48,26 +51,50 @@ userRouter.post("/login", async (req, res) => {
 
     const user = selectedUser[0];
     if (!selectedUser) {
-      return res.send("user doesn't exist");
+      return res.status(500).send("user doesn't exist");
     }
 
     //check if user's form password matches the hashed password
     try {
-      console.log(password);
-      console.log(user.password);
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        return res.send("user/pass does not match.");
+        return res.status(200).send("user/pass does not match.");
       } else {
-        // do JWT thing here
-        return res.status(200).send("password matches");
+        // JWT authentication
+
+        const accessToken = await jwt.sign(
+          user,
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: "3600s" }
+        );
+
+        return res.status(200).json({ accessToken });
       }
     } catch (err) {
-      return res.send("matching hashes failed");
+      return res.status(500).send("matching hashes failed");
     }
   } catch (err) {
-    return res.send("bad");
+    return res.status(500).send("failed to look for user");
   }
 });
+
+userRouter.get("/test", authenticateToken, (req, res) => {
+  res.send("hi!");
+});
+
+// middleware for getting the token
+async function authenticateToken(req, res, next) {
+  // auth header : Bearer <token>
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null) return res.status(401).send("No Token");
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.send("You have no access.");
+    req.user = user;
+    next();
+  });
+}
 
 export default userRouter;
