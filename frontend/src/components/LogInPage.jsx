@@ -1,7 +1,9 @@
 import axios from "axios";
+import { use } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 // gets user info!
-async function fetchUserInfo() {
+async function fetchUserInfo(setUser) {
   const ENDPOINT = "http://localhost:3000/users/profile";
 
   const token = localStorage.getItem("accessToken");
@@ -21,6 +23,7 @@ async function fetchUserInfo() {
 
     // the router responds w/ a user object holding userInfo
     const data = response.data.user;
+    setUser(data);
 
     console.log(data);
   } catch (err) {
@@ -28,7 +31,7 @@ async function fetchUserInfo() {
   }
 }
 
-async function userRequest(username, password) {
+async function userRequest(username, password, setUser) {
   const ENDPOINT = "http://localhost:3000/users/login";
   try {
     const res = await axios.post(ENDPOINT, {
@@ -41,7 +44,7 @@ async function userRequest(username, password) {
     // If user has a JWT, we store it in local storage.
     if (data.accessToken) {
       console.log(data.accessToken);
-      await fetchUserInfo();
+      await fetchUserInfo(setUser);
       localStorage.setItem("accessToken", data.accessToken);
     }
   } catch (err) {
@@ -50,11 +53,12 @@ async function userRequest(username, password) {
 }
 
 export default function LogInPage() {
+  const { user, setUser } = use(AuthContext);
   const logIn = async (e) => {
     e.preventDefault();
 
     const { username, password } = e.target;
-    userRequest(username.value, password.value);
+    userRequest(username.value, password.value, setUser);
   };
 
   return (

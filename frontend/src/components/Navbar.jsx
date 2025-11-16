@@ -1,12 +1,20 @@
 import { BookOpen, Heart, Search } from "lucide-react";
 import { Link } from "react-router";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import SignUpPage from "./SignUpPage";
 import LogInPage from "./LogInPage";
+import { AuthContext } from "../context/AuthContext";
+import { use } from "react";
+import { useEffect } from "react";
 
 export default function Navbar() {
   const [selectedDialog, setSelectedDialog] = useState(null);
+  const { user } = use(AuthContext);
 
+  //if user logs in/signs up, we turn the dialogs off
+  useEffect(() => {
+    setSelectedDialog(null);
+  }, [user]);
   //tells us which form user has opened
 
   const openForm = (type) => {
@@ -60,24 +68,31 @@ export default function Navbar() {
           </li>
 
           {/* sign in and sign up */}
-          <div className="border-l border-l-gray-400/50 pl-3 flex gap-3">
-            <li>
-              <button
-                onClick={() => openForm("sign-in")}
-                className="border border-gray-300 text-black flex items-center min-w-20 "
-              >
-                Sign In
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => openForm("sign-up")}
-                className="bg-black text-amber-50 flex items-center min-w-20 "
-              >
-                Create an Account
-              </button>
-            </li>
-          </div>
+
+          {user.username === "Guest" ? (
+            <div className="border-l border-l-gray-400/50 pl-3 flex gap-3">
+              <li>
+                <button
+                  onClick={() => openForm("sign-in")}
+                  className="border border-gray-300 text-black flex items-center min-w-20 "
+                >
+                  Sign In
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => openForm("sign-up")}
+                  className="bg-black text-amber-50 flex items-center min-w-20 "
+                >
+                  Create an Account
+                </button>
+              </li>
+            </div>
+          ) : (
+            <div className="border-l border-l-gray-400/50 pl-3 flex gap-3 items-center ">
+              <p> {user.username} </p>
+            </div>
+          )}
         </ul>
       </div>
     </>

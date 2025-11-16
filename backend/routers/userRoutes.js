@@ -9,6 +9,7 @@ dotenv.config();
 const userRouter = express.Router();
 
 //Getting user info (if we have the json web token)
+//remember: that authenticate token checks if we have token, and returns a user object
 userRouter.get("/profile", authenticateToken, async (req, res) => {
   // get user id
   const userId = req.user.id;
