@@ -46,6 +46,7 @@ const displayPopularManga = async (req, res) => {
   try {
     let displayMangasArray = popularMangasArray.map((manga) => {
       return {
+        id: manga.mal_id,
         name: manga.title,
         image: manga.images.jpg.large_image_url,
         authors: manga.authors.map((a) => a.name),

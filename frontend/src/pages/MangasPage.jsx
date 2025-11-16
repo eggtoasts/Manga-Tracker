@@ -77,7 +77,10 @@ export default function MangasPage() {
 
             {popularMangas.map((manga) => {
               return (
-                <div className=" flex flex-col border rounded-xl border-gray-300">
+                <div
+                  key={manga.id}
+                  className=" flex flex-col border rounded-xl border-gray-300"
+                >
                   <div className="rounded-xl aspect-3/4 overflow-hidden cursor-pointer">
                     <img
                       src={manga.image}
