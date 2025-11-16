@@ -211,7 +211,7 @@ function MangaCard({ manga }) {
           </div>
         </div>
 
-        <button className="mt-2 p-2 bg-black text-white  rounded-full">
+        <button className="mt-2 p-2 bg-black text-white  rounded-full hover:cursor-pointer">
           Add to List
         </button>
       </div>

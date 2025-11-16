@@ -1,6 +1,15 @@
 import express from "express";
 import controllers from "../controllers/mangaController.js";
+import userControllers from "../controllers/userController.js";
+
 const mangaRouter = express.Router();
+
+//Adding manga onto a user's list
+mangaRouter.post(
+  "/userlist",
+  userControllers.authenticateToken,
+  controllers.addMangaToUserList
+);
 
 // Get all mangas
 mangaRouter.get("/manga", controllers.getAllMangas);

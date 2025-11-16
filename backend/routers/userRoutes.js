@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sql } from "../config/db.js";
 import dotenv from "dotenv";
+import userControllers from "../controllers/userController.js";
 
 dotenv.config();
 
@@ -10,21 +11,25 @@ const userRouter = express.Router();
 
 //Getting user info (if we have the json web token)
 //remember: that authenticate token checks if we have token, and returns a user object
-userRouter.get("/profile", authenticateToken, async (req, res) => {
-  // get user id
-  const userId = req.user.id;
-  try {
-    // search for username and name_color in database
-    const [userInfo] =
-      await sql`SELECT username, name_color FROM users WHERE users.id =${userId}`;
+userRouter.get(
+  "/profile",
+  userControllers.authenticateToken,
+  async (req, res) => {
+    // get user id
+    const userId = req.user.id;
+    try {
+      // search for username and name_color in database
+      const [userInfo] =
+        await sql`SELECT username, name_color FROM users WHERE users.id =${userId}`;
 
-    // return that info!
-    res.status(200).json({ user: userInfo });
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Server error");
+      // return that info!
+      res.status(200).json({ user: userInfo });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server error");
+    }
   }
-});
+);
 
 //Adding users (Sign up)
 userRouter.post("/signup", async (req, res) => {
@@ -96,23 +101,8 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-userRouter.get("/test", authenticateToken, (req, res) => {
+userRouter.get("/test", userControllers.authenticateToken, (req, res) => {
   res.send("hi!");
 });
-
-// middleware for getting the token
-async function authenticateToken(req, res, next) {
-  // auth header : Bearer <token>
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (token == null) return res.status(401).send("No Token");
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.send("You have no access.");
-    req.user = user;
-    next();
-  });
-}
 
 export default userRouter;

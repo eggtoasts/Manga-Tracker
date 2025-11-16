@@ -1,5 +1,37 @@
 import { sql } from "../config/db.js";
 
+//adding manga to a user's list with "reading" status
+const addMangaToUserList = async (req, res) => {
+  const userId = req.user.id;
+
+  const { mangaId } = req.body;
+
+  const readingStatus = "reading";
+  const chaptersRead = 0;
+  const userRating = null;
+  const notes = null;
+
+  if (!userId || !mangaId) {
+    return res.status(400).json({ error: "Missing Manga ID" });
+  }
+
+  try {
+    const [newEntry] = await sql`
+            INSERT INTO user_manga_list (user_id, manga_id, reading_status, chapters_read, user_rating, notes)
+            VALUES (${userId}, ${mangaId}, ${readingStatus}, ${chaptersRead}, ${userRating}, ${notes})
+            RETURNING *
+        `;
+
+    res.status(201).json({
+      message: "Manga added to user list (default: reading)",
+      entry: newEntry,
+    });
+  } catch (err) {
+    console.error("Error adding manga to user list:", err);
+    res.status(500).json({ error: "Failed to add manga to user list" });
+  }
+};
+
 const getAllMangas = async (req, res) => {
   try {
     const mangas = await sql`SELECT * FROM manga`;
@@ -90,6 +122,7 @@ const controllers = {
   addMangaRec,
   addManga,
   updateMangaRec,
+  addMangaToUserList,
 };
 
 export default controllers;
