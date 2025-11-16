@@ -42,15 +42,10 @@ export default function MangasPage() {
 
   const inputRef = useRef(null);
 
-  //create a function tht checks genre index and decides if we show (+)
+  const [searchedMangas, setSearchedMangas] = useState([]);
+  const [browseType, setBrowseType] = useState("Popular");
 
-  function showGenrePlus(index) {
-    if (index === 3) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  //create a function tht checks genre index and decides if we show (+)
 
   // by mount it should display popular mangas
   useEffect(() => {
@@ -94,13 +89,41 @@ export default function MangasPage() {
               setLoading,
               setError
             );
-            setPopularMangas(arr);
+            setSearchedMangas(arr);
+            setBrowseType("Search");
           }}
           className="w-fill flex items-center rounded-bl-sm bg-gray-100 "
         >
           <Search size={15} className="mx-2 mr-2" />
           <input ref={inputRef} type="text" className=" w-full py-1" />
         </form>
+
+        <div className="mt-5 flex bg-gray-300 py-[2px] px-1 w-max rounded-xl ">
+          <button
+            onClick={() => {
+              setBrowseType("Popular");
+            }}
+            className={`text-sm rounded-xl px-2 py-1 hover:cursor-pointer transition-colors duration-200 ${
+              browseType === "Popular"
+                ? "bg-white text-black font-semibold "
+                : "bg-transparent"
+            }`}
+          >
+            Popular
+          </button>
+          <button
+            onClick={() => {
+              setBrowseType("Search");
+            }}
+            className={`text-sm rounded-xl px-2 py-1 hover:cursor-pointer transition-colors duration-200 ${
+              browseType === "Search"
+                ? "bg-white text-black font-semibold "
+                : "bg-transparent"
+            }`}
+          >
+            Search Results ({searchedMangas.length})
+          </button>
+        </div>
 
         {loading ? (
           <div className="mt-80">
@@ -110,70 +133,88 @@ export default function MangasPage() {
           <div className="pt-6 grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {/* this the card */}
 
-            {popularMangas.map((manga) => {
-              return (
-                <div
-                  key={manga.id}
-                  className=" flex flex-col border rounded-xl border-gray-300"
-                >
-                  <div className="rounded-xl aspect-3/4 overflow-hidden cursor-pointer">
-                    <img
-                      src={manga.image}
-                      className="object-cover hover:scale-105 transition-transform durection-300 w-full h-full rounded-t-xl"
-                    ></img>
-                  </div>
-                  <div className="flex flex-col p-3 [&>div]:pb-2">
-                    <div className="[&:last-child]:pb-6 flex-1 ">
-                      {/* name of manga */}
-                      <h3 className="line-clamp-1 mb-2 cursor-pointer hover:text-primary">
-                        {manga.name}
-                      </h3>
+            {/*  itll show popular mangas OR searched mangas */}
 
-                      {/* description */}
-                      <p className="line-clamp-3 mb-3 text-gray-500 text-sm">
-                        {manga.description}
-                      </p>
-
-                      {/* rating (if the api has any) */}
-                      <div className="flex gap-2 ">
-                        <span className="h-min w-max flex items-center gap-1 bg-gray-300/80 rounded-full w-min px-1 text-sm">
-                          <Star size={10} />
-                          {manga.score}
-                        </span>
-
-                        {/* pages */}
-                        <span className="h-min bg-gray-300/80 rounded-full w-max px-1 text-sm">
-                          1000 ch
-                        </span>
-                      </div>
-                      {/* genres */}
-                      <div className="flex gap-1 pt-3">
-                        {manga.genres
-                          .slice(0, 4)
-                          .map((g, index) =>
-                            !showGenrePlus(index) ? (
-                              <span className=" px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
-                                {g}
-                              </span>
-                            ) : (
-                              <span className="px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
-                                {`+${manga.genres.length - 3}`}
-                              </span>
-                            )
-                          )}
-                      </div>
-                    </div>
-
-                    <button className="mt-2 p-2 bg-black text-white  rounded-full">
-                      Add to List
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+            {browseType === "Popular"
+              ? popularMangas.map((manga) => {
+                  return <MangaCard manga={manga} />;
+                })
+              : searchedMangas.map((manga) => {
+                  return <MangaCard manga={manga} />;
+                })}
           </div>
         )}
       </div>
     </>
+  );
+}
+
+function MangaCard({ manga }) {
+  function showGenrePlus(index) {
+    if (index === 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  return (
+    <div
+      key={manga.id}
+      className=" flex flex-col border rounded-xl border-gray-300"
+    >
+      <div className="rounded-xl aspect-3/4 overflow-hidden cursor-pointer">
+        <img
+          src={manga.image}
+          className="object-cover hover:scale-105 transition-transform durection-300 w-full h-full rounded-t-xl"
+        ></img>
+      </div>
+      <div className="flex flex-col p-3 [&>div]:pb-2">
+        <div className="[&:last-child]:pb-6 flex-1 ">
+          {/* name of manga */}
+          <h3 className="line-clamp-1 mb-2 cursor-pointer hover:text-primary">
+            {manga.name}
+          </h3>
+
+          {/* description */}
+          <p className="line-clamp-3 mb-3 text-gray-500 text-sm">
+            {manga.description}
+          </p>
+
+          {/* rating (if the api has any) */}
+          <div className="flex gap-2 ">
+            <span className="h-min w-max flex items-center gap-1 bg-gray-300/80 rounded-full w-min px-1 text-sm">
+              <Star size={10} />
+              {manga.score}
+            </span>
+
+            {/* pages */}
+            <span className="h-min bg-gray-300/80 rounded-full w-max px-1 text-sm">
+              1000 ch
+            </span>
+          </div>
+          {/* genres */}
+          <div className="flex gap-1 pt-3">
+            {manga.genres
+              .slice(0, 4)
+              .map((g, index) =>
+                !showGenrePlus(index) ? (
+                  <span className=" px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
+                    {g}
+                  </span>
+                ) : (
+                  <span className="px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
+                    {`+${manga.genres.length - 3}`}
+                  </span>
+                )
+              )}
+          </div>
+        </div>
+
+        <button className="mt-2 p-2 bg-black text-white  rounded-full">
+          Add to List
+        </button>
+      </div>
+    </div>
   );
 }
