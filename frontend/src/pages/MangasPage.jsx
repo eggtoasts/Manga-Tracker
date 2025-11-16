@@ -5,6 +5,23 @@ import { Loader2, Plus, Search, Star } from "lucide-react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRef } from "react";
+
+async function fetchSearchData(query, setLoading, setError) {
+  setLoading(true);
+  console.log(query);
+  const ENDPOINT = `http://localhost:3000/api/search?title=${query}`;
+
+  try {
+    const res = await axios.get(ENDPOINT);
+    const mangaArray = res.data;
+    setLoading(false);
+    return mangaArray;
+  } catch (error) {
+    setError(error);
+  }
+}
+
 async function fetchPopularMangas() {
   const ENDPOINT = "http://localhost:3000/api/mangas";
 
@@ -22,6 +39,8 @@ export default function MangasPage() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [popularMangas, setPopularMangas] = useState([]);
+
+  const inputRef = useRef(null);
 
   //create a function tht checks genre index and decides if we show (+)
 
@@ -62,10 +81,26 @@ export default function MangasPage() {
             </h2>
           </div>
         </div>
-        <div className="w-fill flex items-center rounded-bl-sm bg-gray-100 ">
+        <form
+          onSubmit={async (e) => {
+            //same search logic as in AddRecForm
+            e.preventDefault();
+
+            if (inputRef.current.value === "") {
+              return;
+            }
+            const arr = await fetchSearchData(
+              inputRef.current.value,
+              setLoading,
+              setError
+            );
+            setPopularMangas(arr);
+          }}
+          className="w-fill flex items-center rounded-bl-sm bg-gray-100 "
+        >
           <Search size={15} className="mx-2 mr-2" />
-          <input type="text" className=" w-xl py-1" />
-        </div>
+          <input ref={inputRef} type="text" className=" w-full py-1" />
+        </form>
 
         {loading ? (
           <div className="mt-80">

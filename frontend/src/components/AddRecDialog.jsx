@@ -49,10 +49,9 @@ export default function AddRecDialog({ closeDialog, setSelectedManga }) {
           <button className="absolute right-[1%] ml-auto cursor-pointer">
             <X onClick={() => closeDialog()} size={"13"} />
           </button>
-          <h1 className="font-semibold">Search for Manga to Recommend</h1>
+          <h1 className="font-semibold">Search for Manga to Review</h1>
           <h2 className="text-gray-500 text-sm">
-            Type in the title of the manga you want to recommend to the
-            community!
+            Type in the title of the manga you want to review to the community!
           </h2>
 
           <form

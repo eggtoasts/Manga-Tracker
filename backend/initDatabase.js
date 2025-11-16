@@ -59,9 +59,30 @@ async function initMangaPostUser() {
   }
 }
 
+async function initUserMangaListDB() {
+  try {
+    const res = await sql`
+    CREATE TABLE IF NOT EXISTS user_manga_list(
+    user_id INT REFERENCES users(id),
+    manga_id INT REFERENCES manga(id),
+    reading_status VARCHAR(50) NOT NULL,
+    chapters_read INT DEFAULT 0,
+    user_rating INT,
+    notes TEXT,
+    PRIMARY KEY (user_id, manga_id),
+    CONSTRAINT valid_reading_status CHECK (
+          reading_status IN ('reading', 'completed', 'plan_to_read', 'on_hold', 'dropped')
+        )
+    )`;
+  } catch (error) {
+    console.log("Error initUserMangaListDB", error);
+  }
+}
+
 export default async function initDB() {
   await initMangaDB();
   await initUsersDB();
   await initPostDB();
   await initMangaPostUser();
+  await initUserMangaListDB();
 }
