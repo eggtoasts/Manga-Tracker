@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Pencil, Search, TextAlignStart } from "lucide-react";
 import { useEffect } from "react";
 import { useState, use } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -80,7 +80,7 @@ export default function ListPage() {
           </div>
 
           <div className="flex">
-            <p> 0 Titles</p>
+            <p> {mangaList.length} Titles</p>
             <div className="ml-auto">
               <button>(long)</button>
               <button>(squares)</button>
@@ -89,19 +89,54 @@ export default function ListPage() {
           </div>
         </div>
 
-        <div className="grid gap-3">
-          {mangaList.map((manga) => {
-            return (
-              <div className="flex h-40 bg-gray-200">
-                <img
-                  src={manga.cover_image}
-                  className="mx-3 rounded-xl object-cover"
-                />
-                <p className="font-semibold">{manga.name}</p>
-                <p className="">{manga.authors}</p>
+        <div className="table w-full">
+          <tr>
+            <th> # </th>
+            <th className="w-6.5/10"> Manga </th>
+            <th> Rating </th>
+            <th> Review </th>
+            <th> Edit </th>
+          </tr>
 
-                <p> {manga.user_rating === null ? "-" : manga.rating} </p>
-              </div>
+          {mangaList.map((manga, index) => {
+            return (
+              <tr className="[&_th]:align-middle">
+                <th className="">
+                  <div className="text-center">{index + 1}</div>
+                </th>
+                <th>
+                  <div className="flex  bg-gray-200">
+                    <img
+                      src={manga.cover_image}
+                      className=" h-20 mx-3 rounded-xl object-cover"
+                    />
+                    <div className="text-start flex flex-col ">
+                      <div className="flex gap-2">
+                        <p className="font-semibold">{manga.name}</p>
+                        <p className="font-normal">{manga.reading_status}</p>
+                      </div>
+                      <p className="font-light">{manga.authors}</p>
+                      <p className="font-light text-sm">Add a note</p>
+                    </div>
+                  </div>
+                </th>
+                <th>
+                  <span>
+                    {manga.user_rating === null ? "-" : manga.rating}{" "}
+                  </span>
+                  /10
+                </th>
+                <th>
+                  <div className="h-full flex justify-center items-center">
+                    <TextAlignStart className="h-5" />
+                  </div>
+                </th>
+                <th className="">
+                  <div className="h-full flex justify-center items-center">
+                    <Pencil className="h-5" />
+                  </div>
+                </th>
+              </tr>
             );
           })}
         </div>
