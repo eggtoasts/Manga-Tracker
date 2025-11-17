@@ -130,7 +130,7 @@ export default function MangasPage() {
             <Loader2 className="loading-animation self-center justify-self-center" />
           </div>
         ) : (
-          <div className="pt-6 grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="pt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
             {/* this the card */}
 
             {/*  itll show popular mangas OR searched mangas */}
@@ -169,7 +169,7 @@ function MangaCard({ manga }) {
           className="object-cover hover:scale-105 transition-transform durection-300 w-full h-full rounded-t-xl"
         ></img>
       </div>
-      <div className="flex flex-col p-3 [&>div]:pb-2">
+      <div className="flex flex-col px-3 pt-3 [&>div]:pb-2">
         <div className="[&:last-child]:pb-6 flex-1 ">
           {/* name of manga */}
           <h3 className="line-clamp-1 mb-2 cursor-pointer hover:text-primary">
@@ -194,7 +194,7 @@ function MangaCard({ manga }) {
             </span>
           </div>
           {/* genres */}
-          <div className="flex gap-1 pt-3">
+          <div className="flex flex-wrap gap-1 pt-3">
             {manga.genres
               .slice(0, 4)
               .map((g, index) =>
@@ -210,11 +210,10 @@ function MangaCard({ manga }) {
               )}
           </div>
         </div>
-
-        <button className="mt-2 p-2 bg-black text-white  rounded-full hover:cursor-pointer">
-          Add to List
-        </button>
       </div>
+      <button className="mt-auto mb-3 mx-3 p-2 bg-black text-white  rounded-full hover:cursor-pointer">
+        Add to List
+      </button>
     </div>
   );
 }

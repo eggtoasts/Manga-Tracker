@@ -4,31 +4,85 @@ import { sql } from "../config/db.js";
 const addMangaToUserList = async (req, res) => {
   const userId = req.user.id;
 
-  const { mangaId } = req.body;
+  const {
+    mangaId: externalMangaId,
+    name,
+    description,
+    cover_image,
+    authors,
+    rating,
+    genres,
+  } = req.body;
 
   const readingStatus = "reading";
   const chaptersRead = 0;
   const userRating = null;
   const notes = null;
+  let localMangaId;
 
-  if (!userId || !mangaId) {
-    return res.status(400).json({ error: "Missing Manga ID" });
+  if (!userId || !externalMangaId || !name) {
+    return res
+      .status(400)
+      .json({ error: "Missing required data, User ID, Manga ID, or Name." });
   }
 
   try {
+    //lookup and check if manga already exists in db
+    const localManga = await sql`
+            SELECT id FROM manga WHERE external_id = ${externalMangaId}
+        `;
+
+    if (localManga.length > 0) {
+      //get the id if it exists
+      localMangaId = localManga[0].id;
+    } else {
+      //manga is not found-- insert it into the DB
+      console.log(
+        `Manga ${name} not found locally. Importing new entry with external_id: ${externalMangaId}`
+      );
+
+      const [newManga] = await sql`
+                INSERT INTO manga (name, description, cover_image, authors, rating, genres, external_id) 
+                VALUES (
+                   ${name}, 
+                   ${description}, 
+                   ${cover_image}, 
+                   ${authors}::text[],
+                   ${rating}, 
+                   ${genres}::text[],
+                   ${externalMangaId} 
+                )
+                RETURNING id;
+            `;
+      localMangaId = newManga.id;
+    }
+
+    //insert the entry (w/ localMangaId)
+    //if it already exists (conflict), do nothing
     const [newEntry] = await sql`
             INSERT INTO user_manga_list (user_id, manga_id, reading_status, chapters_read, user_rating, notes)
-            VALUES (${userId}, ${mangaId}, ${readingStatus}, ${chaptersRead}, ${userRating}, ${notes})
+            VALUES (${userId}, ${localMangaId}, ${readingStatus}, ${chaptersRead}, ${userRating}, ${notes})
+            ON CONFLICT (user_id, manga_id) DO NOTHING
             RETURNING *
         `;
 
+    //error check
+    if (!newEntry) {
+      return res.status(200).json({
+        message: "Manga is already on the user's list.",
+        entry: null,
+      });
+    }
+
     res.status(201).json({
-      message: "Manga added to user list (default: reading)",
+      message: "Manga imported and added to user list (default: reading)",
       entry: newEntry,
     });
   } catch (err) {
-    console.error("Error adding manga to user list:", err);
-    res.status(500).json({ error: "Failed to add manga to user list" });
+    console.error("Error in addMangaToUserList:", err);
+    res
+      .status(500)
+      .json({ error: "Failed to process request: " + err.message });
   }
 };
 
