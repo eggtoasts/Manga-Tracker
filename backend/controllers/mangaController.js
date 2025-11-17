@@ -14,6 +14,8 @@ const getAllMangasFromUserList = async (req, res) => {
     m.authors,
     m.rating AS global_rating,
     m.genres,
+    m.total_chapters,
+    m.manga_status,
     uml.reading_status,
     uml.chapters_read,
     uml.user_rating,
@@ -24,7 +26,7 @@ const getAllMangasFromUserList = async (req, res) => {
     res.status(200).json(userListMangas);
   } catch (err) {
     console.error("Error retrieving user manga list:", err);
-    res.status(500).json({ error: "Failed to retrieve manga list" });
+    res.status(500).json({ error: err });
   }
 };
 
@@ -40,6 +42,8 @@ const addMangaToUserList = async (req, res) => {
     authors,
     rating,
     genres,
+    total_chapters,
+    manga_status,
   } = req.body;
 
   const readingStatus = "reading";
@@ -70,7 +74,7 @@ const addMangaToUserList = async (req, res) => {
       );
 
       const [newManga] = await sql`
-                INSERT INTO manga (name, description, cover_image, authors, rating, genres, external_id) 
+                INSERT INTO manga (name, description, cover_image, authors, rating, genres, external_id, total_chapters, manga_status) 
                 VALUES (
                    ${name}, 
                    ${description}, 
@@ -78,7 +82,9 @@ const addMangaToUserList = async (req, res) => {
                    ${authors}::text[],
                    ${rating}, 
                    ${genres}::text[],
-                   ${externalMangaId} 
+                   ${externalMangaId},
+                  ${total_chapters},
+                  ${manga_status} 
                 )
                 RETURNING id;
             `;

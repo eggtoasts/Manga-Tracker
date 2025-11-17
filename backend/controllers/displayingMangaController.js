@@ -57,6 +57,7 @@ const displayPopularManga = async (req, res) => {
           .map((g) => genreShortened(g.name)),
         rank: manga.rank,
         status: manga.status,
+        chapters: manga.chapters,
       };
     });
 
@@ -89,6 +90,7 @@ const searchManga = async (req, res) => {
           .map((g) => genreShortened(g.name)),
         rank: manga.rank,
         status: manga.status,
+        chapters: manga.chapters,
       };
     });
     console.log(searchMangaArray);

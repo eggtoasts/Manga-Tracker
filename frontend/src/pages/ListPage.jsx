@@ -90,17 +90,18 @@ export default function ListPage() {
         </div>
 
         <div className="table w-full">
-          <tr>
+          <tr className="text-sm ">
             <th> # </th>
-            <th className="w-6.5/10"> Manga </th>
+            <th className="w-6.5/10 "> Manga </th>
             <th> Rating </th>
+            <th> Chapters </th>
             <th> Review </th>
             <th> Edit </th>
           </tr>
 
           {mangaList.map((manga, index) => {
             return (
-              <tr className="[&_th]:align-middle">
+              <tr key={manga.id} className="[&_th]:align-middle">
                 <th className="">
                   <div className="text-center">{index + 1}</div>
                 </th>
@@ -114,6 +115,7 @@ export default function ListPage() {
                       <div className="flex gap-2">
                         <p className="font-semibold">{manga.name}</p>
                         <p className="font-normal">{manga.reading_status}</p>
+                        <p className="font-normal">{manga.manga_status}</p>
                       </div>
                       <p className="font-light">{manga.authors}</p>
                       <p className="font-light text-sm">Add a note</p>
@@ -125,6 +127,9 @@ export default function ListPage() {
                     {manga.user_rating === null ? "-" : manga.rating}{" "}
                   </span>
                   /10
+                </th>
+                <th>
+                  {manga.chapters_read}/{manga.total_chapters}
                 </th>
                 <th>
                   <div className="h-full flex justify-center items-center">

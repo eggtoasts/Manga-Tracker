@@ -34,6 +34,8 @@ async function quickAddToList(manga, user) {
         authors: manga.authors,
         rating: manga.score,
         genres: manga.genres,
+        total_chapters: manga.chapters,
+        manga_status: manga.status,
       },
       {
         headers: {
@@ -233,7 +235,7 @@ function MangaCard({ manga, user }) {
 
             {/* pages */}
             <span className="h-min bg-gray-300/80 rounded-full w-max px-1 text-sm">
-              1000 ch
+              {manga.chapters} ch
             </span>
           </div>
           {/* genres */}
