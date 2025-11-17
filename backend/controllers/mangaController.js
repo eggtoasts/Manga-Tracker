@@ -1,4 +1,32 @@
 import { sql } from "../config/db.js";
+//look at every manga on the user's list.
+const getAllMangasFromUserList = async (req, res) => {
+  const userId = req.user.id;
+
+  //we do a inner join to find the mangas in a specific user's list
+  try {
+    const userListMangas = await sql`
+    SELECT
+    m.id AS manga_id,
+    m.name,
+    m.description,
+    m.cover_image,
+    m.authors,
+    m.rating AS global_rating,
+    m.genres,
+    uml.reading_status,
+    uml.chapters_read,
+    uml.user_rating,
+    uml.notes
+    FROM user_manga_list AS uml INNER JOIN manga AS m ON uml.manga_id = m.id
+    WHERE uml.user_id = ${userId} ORDER BY m.name ASC`;
+
+    res.status(200).json(userListMangas);
+  } catch (err) {
+    console.error("Error retrieving user manga list:", err);
+    res.status(500).json({ error: "Failed to retrieve manga list" });
+  }
+};
 
 //adding manga to a user's list with "reading" status
 const addMangaToUserList = async (req, res) => {
@@ -177,6 +205,7 @@ const controllers = {
   addManga,
   updateMangaRec,
   addMangaToUserList,
+  getAllMangasFromUserList,
 };
 
 export default controllers;

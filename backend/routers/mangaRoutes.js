@@ -4,6 +4,13 @@ import userControllers from "../controllers/userController.js";
 
 const mangaRouter = express.Router();
 
+//Get all the mangas from a certain user's list
+mangaRouter.get(
+  "/userlist",
+  userControllers.authenticateToken,
+  controllers.getAllMangasFromUserList
+);
+
 //Adding manga onto a user's list
 mangaRouter.post(
   "/userlist",
