@@ -18,9 +18,9 @@ userRouter.get(
     // get user id
     const userId = req.user.id;
     try {
-      // search for username and name_color in database
+      // search for id, username and name_color in database
       const [userInfo] =
-        await sql`SELECT username, name_color FROM users WHERE users.id =${userId}`;
+        await sql`SELECT id, username, name_color FROM users WHERE users.id =${userId}`;
 
       // return that info!
       res.status(200).json({ user: userInfo });

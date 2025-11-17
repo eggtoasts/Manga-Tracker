@@ -5,7 +5,49 @@ import { Loader2, Plus, Search, Star } from "lucide-react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useRef } from "react";
+import { useRef, use } from "react";
+import { AuthContext } from "../context/AuthContext";
+
+async function quickAddToList(manga, user) {
+  console.log(user);
+  if (!user || !user.id) {
+    console.log("Please login to add manga to your list");
+    return;
+  }
+
+  const ENDPOINT = "http://localhost:3000/userlist";
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    console.log("JWT missing. log in again.");
+    return;
+  }
+
+  try {
+    await axios.post(
+      ENDPOINT,
+      {
+        mangaId: manga.id,
+        name: manga.name,
+        description: manga.description,
+        cover_image: manga.image,
+        authors: manga.authors,
+        rating: manga.score,
+        genres: manga.genres,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(`Add Success! "${manga.name}" added as "Reading".`);
+  } catch (error) {
+    console.log("add failed:", error);
+    console.log("Failed to add manga. Check console for details.");
+  }
+}
 
 async function fetchSearchData(query, setLoading, setError) {
   setLoading(true);
@@ -41,6 +83,7 @@ export default function MangasPage() {
   const [popularMangas, setPopularMangas] = useState([]);
 
   const inputRef = useRef(null);
+  const { user } = use(AuthContext);
 
   const [searchedMangas, setSearchedMangas] = useState([]);
   const [browseType, setBrowseType] = useState("Popular");
@@ -137,10 +180,10 @@ export default function MangasPage() {
 
             {browseType === "Popular"
               ? popularMangas.map((manga) => {
-                  return <MangaCard manga={manga} />;
+                  return <MangaCard manga={manga} user={user} />;
                 })
               : searchedMangas.map((manga) => {
-                  return <MangaCard manga={manga} />;
+                  return <MangaCard manga={manga} user={user} />;
                 })}
           </div>
         )}
@@ -149,7 +192,7 @@ export default function MangasPage() {
   );
 }
 
-function MangaCard({ manga }) {
+function MangaCard({ manga, user }) {
   function showGenrePlus(index) {
     if (index === 3) {
       return true;
@@ -211,7 +254,13 @@ function MangaCard({ manga }) {
           </div>
         </div>
       </div>
-      <button className="mt-auto mb-3 mx-3 p-2 bg-black text-white  rounded-full hover:cursor-pointer">
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          quickAddToList(manga, user);
+        }}
+        className="mt-auto mb-3 mx-3 p-2 bg-black text-white  rounded-full hover:cursor-pointer"
+      >
         Add to List
       </button>
     </div>
