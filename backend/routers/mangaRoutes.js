@@ -4,6 +4,13 @@ import userControllers from "../controllers/userController.js";
 
 const mangaRouter = express.Router();
 
+//Edit manga from user list
+mangaRouter.put(
+  "/userlist/:mangaId",
+  userControllers.authenticateToken,
+  controllers.editMangaFromUserList
+);
+
 //Get all the mangas from a certain user's list
 mangaRouter.get(
   "/userlist",

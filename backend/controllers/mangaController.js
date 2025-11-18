@@ -1,4 +1,36 @@
 import { sql } from "../config/db.js";
+
+//deleting a manga from a user's list
+
+//editing a manga from a user's list
+const editMangaFromUserList = async (req, res) => {
+  const userId = req.user.id;
+
+  // /userlist/:mangaId
+  const { mangaId } = req.params;
+  const { reading_status, notes, user_rating, chapters_read } = req.body;
+
+  if (!mangaId) {
+    return res.status(400).json({ error: "Missing manga ID for update." });
+  }
+
+  try {
+    const editedManga = await sql`
+      UPDATE user_manga_list
+       SET reading_status = ${reading_status}, notes = ${notes}, user_rating = ${user_rating}, chapters_read = ${chapters_read} 
+       WHERE user_id = ${userId} AND manga_id = ${mangaId}
+       RETURNING *;
+    `;
+    res.status(200).json({
+      message: "Manga entry updated successfully.",
+      entry: editedManga[0],
+    });
+  } catch (err) {
+    console.error("Error updating user manga list:", err);
+    res.status(500).json({ error: "Failed to update manga entry." });
+  }
+};
+
 //look at every manga on the user's list.
 const getAllMangasFromUserList = async (req, res) => {
   const userId = req.user.id;
@@ -212,6 +244,7 @@ const controllers = {
   updateMangaRec,
   addMangaToUserList,
   getAllMangasFromUserList,
+  editMangaFromUserList,
 };
 
 export default controllers;
