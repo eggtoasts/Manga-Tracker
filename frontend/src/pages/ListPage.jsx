@@ -4,6 +4,30 @@ import { useState, use } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
+//for editing manga
+
+async function editManga(user, mangaId, updatedFields) {
+  const ENDPOINT = `http://localhost:3000/userlist/${mangaId}`;
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    console.log("JWT missing. log in again.");
+    return;
+  }
+
+  try {
+    const response = await axios.put(ENDPOINT, updatedFields, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(response.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 async function getMangaList(user, setMangaList) {
   if (!user || !user.id) {
     console.log("Please login to add manga to your list");
@@ -33,7 +57,7 @@ async function getMangaList(user, setMangaList) {
 }
 
 //ima move it to components later
-function EditMangaListDialog({ manga, setCurrentMangaBeingEdited }) {
+function EditMangaListDialog({ manga, setCurrentMangaBeingEdited, onSave }) {
   //if pressed submit on form, send a update request
   //if "delete", send delete request
   const [formData, setFormData] = useState({
@@ -91,7 +115,12 @@ function EditMangaListDialog({ manga, setCurrentMangaBeingEdited }) {
 
         <form className="[&_input]:rounded [&_input]:bg-gray-200 [&_label]:mt-2 [&_label]:font-semibold flex flex-col">
           <label>Status:</label>
-          <select className=" bg-gray-200 rounded-md">
+          <select
+            onChange={(e) => handleChange(e)}
+            value={formData.readingStatus}
+            name="readingStatus"
+            className=" bg-gray-200 rounded-md"
+          >
             <option value="reading">Reading</option>
             <option value="completed">Completed</option>
             <option value="plan_to_read">Plan To Read</option>
@@ -126,6 +155,9 @@ function EditMangaListDialog({ manga, setCurrentMangaBeingEdited }) {
 
           <label>Your Note</label>
           <textarea
+            name="notes"
+            onChange={(e) => handleChange(e)}
+            value={formData.notes}
             defaultValue={manga.notes}
             className=" bg-gray-200 rounded"
           />
@@ -142,8 +174,17 @@ function EditMangaListDialog({ manga, setCurrentMangaBeingEdited }) {
             </button>
             <button
               className="rounded-md px-2 py-1 bg-black text-white"
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.preventDefault();
+                const tempFormData = {
+                  ...formData,
+                  chaptersRead: Number(formData.chaptersRead),
+                  userRating:
+                    formData.userRating === ""
+                      ? null
+                      : Number(formData.userRating),
+                };
+                await onSave(manga.manga_id, tempFormData);
                 setCurrentMangaBeingEdited(null);
               }}
             >
@@ -174,12 +215,31 @@ export default function ListPage() {
     console.log("Manga List Updated:", mangaList);
   }, [mangaList]);
 
+  //for edit form
+  async function saveEdit(mangaId, formData) {
+    console.log(formData);
+    const reqBody = {
+      reading_status: formData.readingStatus,
+      chapters_read: formData.chaptersRead,
+      user_rating: formData.userRating,
+      notes: formData.notes,
+    };
+
+    try {
+      await editManga(user, mangaId, reqBody);
+      await getMangaList(user, setMangaList);
+    } catch (err) {
+      console.error("Failed to save list.", err);
+    }
+  }
+
   return (
     <>
       {currentMangaBeingEdited && (
         <EditMangaListDialog
           manga={currentMangaBeingEdited}
           setCurrentMangaBeingEdited={setCurrentMangaBeingEdited}
+          onSave={saveEdit}
         />
       )}
       <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
@@ -249,13 +309,13 @@ export default function ListPage() {
                         <p className="font-normal">{manga.manga_status}</p>
                       </div>
                       <p className="font-light">{manga.authors}</p>
-                      <p className="font-light text-sm">Add a note</p>
+                      <p className="font-light text-sm">{manga.notes || " "}</p>
                     </div>
                   </div>
                 </th>
                 <th>
                   <span>
-                    {manga.user_rating === null ? "-" : manga.rating}{" "}
+                    {manga.user_rating == null ? "-" : manga.user_rating}{" "}
                   </span>
                   /10
                 </th>
