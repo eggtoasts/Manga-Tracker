@@ -111,7 +111,7 @@ export default function MangasPage() {
   }, []);
   return (
     <>
-      <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
+      <div className=" mx-5 p-5 mt-4 h-fit flex content-center w-fill justify-between flex-col ">
         {/* title & bio */}
         <div className="flex">
           <div className="">
@@ -175,7 +175,7 @@ export default function MangasPage() {
             <Loader2 className="loading-animation self-center justify-self-center" />
           </div>
         ) : (
-          <div className="pt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+          <div className=" pt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
             {/* this the card */}
 
             {/*  itll show popular mangas OR searched mangas */}

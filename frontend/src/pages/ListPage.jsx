@@ -62,6 +62,7 @@ export default function ListPage() {
   const [currentMangaBeingEdited, setCurrentMangaBeingEdited] = useState(null);
   const { user } = use(AuthContext);
   const [filterType, setFilterType] = useState("all");
+  const [filterX, setFilterX] = useState("0");
 
   //on mount + if user is logged in, it should fetch user's mangaLists.
   useEffect(() => {
@@ -118,20 +119,73 @@ export default function ListPage() {
       <div className="mx-25">
         {/* filters + layout*/}
         <div>
-          <div className="flex gap-3 ">
-            <button onClick={() => setFilterType("all")}>All</button>
-            <button onClick={() => setFilterType("reading")}>Reading</button>
-            <button onClick={() => setFilterType("plan_to_read")}>
+          <div className="text-gray-400 z-1 relative [&_button]:px-4 [&_button]:font-bold [&_button]:transition-all duration-200  gap-3 flex bg-gray-100 py-1.5 px-5 w-max">
+            <button
+              onClick={() => {
+                setFilterType("all");
+                setFilterX("translate-x-[0px] ");
+              }}
+              className={`${filterType === "all" ? "text-white" : ""}`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => {
+                setFilterType("reading");
+                setFilterX("translate-x-[83px] scale-x-150");
+              }}
+              className={`${filterType === "reading" ? "text-white" : ""}`}
+            >
+              Reading
+            </button>
+            <button
+              onClick={() => {
+                setFilterType("plan_to_read");
+                setFilterX("translate-x-[205px] scale-x-210 ");
+              }}
+              className={`${filterType === "plan_to_read" ? "text-white" : ""}`}
+            >
               Plan To Read
             </button>
-            <button onClick={() => setFilterType("completed")}>
+            <button
+              onClick={() => {
+                setFilterType("completed");
+                setFilterX("translate-x-[339px] scale-x-190");
+              }}
+              className={`${filterType === "completed" ? "text-white" : ""}`}
+            >
               Completed
             </button>
-            <button onClick={() => setFilterType("on_hold")}>On Hold</button>
-            <button onClick={() => setFilterType("re_reading")}>
+            <button
+              onClick={() => {
+                setFilterType("on_hold");
+                setFilterX("translate-x-[457px] scale-x-145");
+              }}
+              className={`${filterType === "on_hold" ? "text-white" : ""}`}
+            >
+              On Hold
+            </button>
+            <button
+              onClick={() => {
+                setFilterType("re_reading");
+                setFilterX("translate-x-[575px] scale-x-175");
+              }}
+              className={`${filterType === "re_reading" ? "text-white" : ""}`}
+            >
               Re-Reading
             </button>
-            <button onClick={() => setFilterType("dropped")}>Dropped</button>
+            <button
+              onClick={() => {
+                setFilterType("dropped");
+                setFilterX("translate-x-[695px] scale-x-159");
+              }}
+              className={`${filterType === "dropped" ? "text-white" : ""}`}
+            >
+              Dropped
+            </button>
+            <div
+              className={`self-center py-3.5 z-[-2] ${filterX}  transition-all duration-300 ease-in-out h-6 min-w-14 main absolute`}
+            ></div>
           </div>
         </div>
 
