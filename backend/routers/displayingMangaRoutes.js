@@ -4,9 +4,12 @@ import controllers from "../controllers/displayingMangaController.js";
 
 const displayManga = express.Router();
 
-displayManga.get("/search", controllers.searchManga);
+displayManga.get("/api/search", controllers.searchManga);
 
 // displays popular mangas
-displayManga.get("/mangas", controllers.displayPopularManga);
+displayManga.get("/api/mangas", controllers.displayPopularManga);
+
+//gets information of a specific manga
+displayManga.get("/mangas/:mangaId", controllers.displaySpecificManga);
 
 export default displayManga;

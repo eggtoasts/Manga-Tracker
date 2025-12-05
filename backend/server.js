@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 app.use("/", mangaRouter);
 
 //For displaying manga, like when a user searches up manga or the default "popular page."
-app.use("/api", displayManga);
+app.use("/", displayManga);
 
 app.use("/users", userRouter);
 

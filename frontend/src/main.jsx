@@ -6,6 +6,7 @@ import MangasPage from "./pages/MangasPage.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import RecPage from "./pages/RecPage.jsx";
 import ListPage from "./pages/ListPage.jsx";
+import Manga from "./pages/Manga.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/mangas",
         element: <MangasPage />,
+      },
+      {
+        path: "/mangas/:mangaId",
+        element: <Manga />,
       },
       {
         path: "/recs",

@@ -100,6 +100,34 @@ const searchManga = async (req, res) => {
   }
 };
 
-const controllers = { displayPopularManga, searchManga };
+const displaySpecificManga = async (req, res) => {
+  const { mangaId } = req.params;
+
+  const URL = `https://api.jikan.moe/v4/manga/${mangaId}`;
+
+  const searchManga = await axios.get(URL);
+  const manga = searchManga.data.data;
+
+  try {
+    console.log(manga);
+    res.json({
+      name: manga.title,
+      image: manga.images.jpg.image_url,
+      authors: manga.authors.map((a) => a.name),
+      score: manga.score,
+      description: manga.synopsis,
+      genres: manga.genres
+        .filter((g) => genreFilter(g.name))
+        .map((g) => genreShortened(g.name)),
+      rank: manga.rank,
+      status: manga.status,
+      chapters: manga.chapters,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const controllers = { displayPopularManga, searchManga, displaySpecificManga };
 
 export default controllers;
