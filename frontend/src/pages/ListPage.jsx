@@ -110,6 +110,18 @@ export default function ListPage() {
     return "";
   }
 
+  function mangaStatusColor(type) {
+    switch (type) {
+      case "Finished":
+        return "bg-cyan-500";
+      case "Publishing":
+        return "bg-lime-500";
+      case "On Hiatus":
+        return "bg-yellow-500";
+    }
+    return "";
+  }
+
   return (
     <>
       {currentMangaBeingEdited && (
@@ -242,13 +254,19 @@ export default function ListPage() {
                       <div className="flex gap-2">
                         <p className="font-semibold">{manga.name}</p>
                         <div>
-                          <div className="text-sm flex items-center bg-gray-300 px-2 rounded">
-                            <p className="rounded w-1.5 h-1.5 mr-2 bg-red-600"></p>
+                          <div className="text-sm flex items-center bg-gray-200 px-2 rounded">
+                            <p
+                              className={`rounded w-1.5 h-1.5 mr-2 ${mangaStatusColor(
+                                manga.manga_status
+                              )}`}
+                            ></p>
                             <p className="font-normal">{manga.manga_status}</p>
                           </div>
                         </div>
                       </div>
-                      <p className="font-light">{manga.authors}</p>
+                      <p className="font-light">
+                        {manga.authors.map((author) => author)}
+                      </p>
                       <p className="font-light text-sm whitespace-pre-line">
                         {manga.notes || " "}
                       </p>
