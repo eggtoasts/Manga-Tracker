@@ -7,7 +7,6 @@ import { useState } from "react";
 import { AuthProvider } from "./context/AuthProvider";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(null);
   const [user, setUser] = useState({ username: "Guest", color: "Gray" });
 
   return (

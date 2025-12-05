@@ -6,10 +6,21 @@ import LogInPage from "./LogInPage";
 import { AuthContext } from "../context/AuthContext";
 import { use } from "react";
 import { useEffect } from "react";
+import icon from "../assets/ML.png";
+import { useLocation } from "react-router";
 
 export default function Navbar() {
+  const [currentPage, setCurrentPage] = useState(null);
+  const { pathname } = useLocation();
+
   const [selectedDialog, setSelectedDialog] = useState(null);
   const { user } = use(AuthContext);
+
+  //on mount, we set this as current page.
+  useEffect(() => {
+    setCurrentPage(pathname);
+    console.log(pathname);
+  }, [pathname]);
 
   //if user logs in/signs up, we turn the dialogs off
   useEffect(() => {
@@ -32,11 +43,11 @@ export default function Navbar() {
       {selectedDialog &&
         (selectedDialog === "sign-up" ? <SignUpPage /> : <LogInPage />)}
       {/* nav */}
-      <div className="flex justify-between h-15.5items-center p-5 border-b-1 border-gray-300">
+      <div className="flex justify-between h-15 items-center p-5 border-b-1 border-gray-300">
         {/* //title & logo */}
-        <div className="flex gap-2 hover:cursor-pointer">
-          <div>logo</div>
-          <div>MangaList</div>
+        <div className="flex gap-2 hover:cursor-pointer items-center ">
+          <img width={70} src={icon}></img>
+          <div className="titleFont text-2xl">MangaList</div>
         </div>
 
         <ul className="flex gap-3  [&_button]:hover:cursor-pointer [&_button]:rounded-md [&_button]:font-medium [&_button]:px-2 [&_button]:py-2  [&_button]:text-xs [&_button]:justify-center">
@@ -44,7 +55,13 @@ export default function Navbar() {
 
           <li>
             <Link to="lists">
-              <button className="bg-black text-amber-50 flex items-center min-w-20 ">
+              <button
+                className={`${
+                  currentPage === "/lists"
+                    ? "main"
+                    : "bg-white text-black border border-gray-300"
+                } text-amber-50 flex items-center min-w-20 `}
+              >
                 <BookOpen size={iconsize} className="mr-2" />
                 My List
               </button>
@@ -52,7 +69,13 @@ export default function Navbar() {
           </li>
           <li>
             <Link to="mangas">
-              <button className="bg-black text-amber-50 flex items-center min-w-20">
+              <button
+                className={`${
+                  currentPage === "/mangas"
+                    ? "main"
+                    : "bg-white text-black border border-gray-300"
+                } text-amber-50 flex items-center min-w-20 `}
+              >
                 <Search size={iconsize} className="mr-2" />
                 Browse
               </button>
@@ -60,7 +83,13 @@ export default function Navbar() {
           </li>
           <li>
             <Link to="recs">
-              <button className="bg-black text-amber-50 flex items-center">
+              <button
+                className={`${
+                  currentPage === "/recs"
+                    ? "main"
+                    : "bg-white text-black border border-gray-300"
+                } text-amber-50 flex items-center min-w-20 `}
+              >
                 <Heart size={iconsize} className="mr-2" />
                 Reviews
               </button>
@@ -82,7 +111,7 @@ export default function Navbar() {
               <li>
                 <button
                   onClick={() => openForm("sign-up")}
-                  className="bg-black text-amber-50 flex items-center min-w-20 "
+                  className="main text-amber-50 flex items-center min-w-20 "
                 >
                   Create an Account
                 </button>

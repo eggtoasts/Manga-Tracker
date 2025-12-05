@@ -102,7 +102,7 @@ export default function ListPage() {
           onSave={saveEdit}
         />
       )}
-      <div className="mx-5 p-5 mt-4 h-35 flex content-center w-fill justify-between flex-col">
+      <div className="mx-5 p-5 mt-4 h-25 flex content-center w-fill justify-between flex-col">
         {/* title & bio */}
         <div className="flex">
           <div className="">
@@ -112,17 +112,13 @@ export default function ListPage() {
             </h2>
           </div>
         </div>
-        <div className="w-fill flex items-center rounded-bl-sm bg-gray-100 ">
-          <Search size={15} className="mx-2 mr-2" />
-          <input type="text" className=" w-xl py-1" />
-        </div>
       </div>
 
       {/*the bottom half (list)*/}
-      <div>
+      <div className="mx-25">
         {/* filters + layout*/}
         <div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 ">
             <button onClick={() => setFilterType("all")}>All</button>
             <button onClick={() => setFilterType("reading")}>Reading</button>
             <button onClick={() => setFilterType("plan_to_read")}>
@@ -136,15 +132,6 @@ export default function ListPage() {
               Re-Reading
             </button>
             <button onClick={() => setFilterType("dropped")}>Dropped</button>
-          </div>
-
-          <div className="flex">
-            <p> {mangaList.length} Titles</p>
-            <div className="ml-auto">
-              <button>(long)</button>
-              <button>(squares)</button>
-              <button>(grid)</button>
-            </div>
           </div>
         </div>
 
@@ -167,7 +154,7 @@ export default function ListPage() {
                   <div className="text-center">{index + 1}</div>
                 </th>
                 <th>
-                  <div className="flex  bg-gray-200">
+                  <div className="flex py-2 bg-gray-200">
                     <img
                       src={manga.cover_image}
                       className=" h-20 mx-3 rounded-xl object-cover"

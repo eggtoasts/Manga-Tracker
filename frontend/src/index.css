@@ -1,7 +1,12 @@
-@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Chewy&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
+@import "tailwindcss";
 input:focus {
   outline: none;
+}
+
+@theme {
+  --font-inter: "Chewy";
 }
 
 @layer components {
@@ -16,5 +21,17 @@ input:focus {
 
   .loading-animation {
     animation: loading 1s linear infinite;
+  }
+
+  .titleFont {
+    font-family: "Chewy";
+  }
+
+  .main {
+    background-color: #9708fe;
+  }
+
+  .sub {
+    background-color: #ede9fe;
   }
 }

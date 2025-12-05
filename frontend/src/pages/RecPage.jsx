@@ -2,7 +2,7 @@ import { User, Star, Search, Plus } from "lucide-react";
 import ListPage from "./MangasPage";
 import AddRecDialog from "../components/AddRecDialog";
 import AddRecForm from "../components/AddRecForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 export default function RecPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 

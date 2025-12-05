@@ -137,7 +137,7 @@ export default function MangasPage() {
             setSearchedMangas(arr);
             setBrowseType("Search");
           }}
-          className="w-fill flex items-center rounded-bl-sm bg-gray-100 "
+          className="w-fill flex items-center rounded-bl-sm bg-gray-100 mt-4"
         >
           <Search size={15} className="mx-2 mr-2" />
           <input ref={inputRef} type="text" className=" w-full py-1" />
@@ -228,14 +228,14 @@ function MangaCard({ manga, user }) {
 
           {/* rating (if the api has any) */}
           <div className="flex gap-2 ">
-            <span className="h-min w-max flex items-center gap-1 bg-gray-300/80 rounded-full w-min px-1 text-sm">
-              <Star size={10} />
+            <span className="h-min w-max flex items-center gap-1 sub rounded-full w-min px-1 text-sm">
+              <Star size={10} color={"#9708fe"} fill={"#9708fe"} />
               {manga.score}
             </span>
 
             {/* pages */}
-            <span className="h-min bg-gray-300/80 rounded-full w-max px-1 text-sm">
-              {manga.chapters} ch
+            <span className="h-min sub rounded-full w-max px-1 text-sm">
+              {manga.chapters ? manga.chapters + " ch" : "Ongoing"}
             </span>
           </div>
           {/* genres */}
@@ -261,7 +261,7 @@ function MangaCard({ manga, user }) {
           e.stopPropagation();
           quickAddToList(manga, user);
         }}
-        className="mt-auto mb-3 mx-3 p-2 bg-black text-white  rounded-full hover:cursor-pointer"
+        className="mt-auto mb-3 mx-3 p-2 main text-white  rounded-full hover:cursor-pointer"
       >
         Add to List
       </button>
