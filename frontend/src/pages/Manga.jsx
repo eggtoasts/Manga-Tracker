@@ -78,6 +78,21 @@ export default function Manga() {
             <h1 className="font-bold text-xl">Reviews </h1>
 
             <h1 className="font-bold text-xl">Characters</h1>
+            <div className="flex">
+              {manga.characters
+                ? manga.characters.map((c) => {
+                    return (
+                      <>
+                        <img
+                          className="rounded object-cover h-16 w-16 "
+                          src={c.characterImage}
+                        ></img>
+                        <p> {c.characterName}</p>
+                      </>
+                    );
+                  })
+                : ""}
+            </div>
           </div>
         </div>
       </div>

@@ -103,13 +103,34 @@ const searchManga = async (req, res) => {
 const displaySpecificManga = async (req, res) => {
   const { mangaId } = req.params;
 
+  const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  const characterURL = `https://api.jikan.moe/v4/manga/${mangaId}/characters`;
   const URL = `https://api.jikan.moe/v4/manga/${mangaId}`;
 
   const searchManga = await axios.get(URL);
+  await delay(350);
+  const searchCharacters = await axios.get(characterURL);
+
   const manga = searchManga.data.data;
 
   try {
-    console.log(manga);
+    let characters;
+    // Get characters
+    try {
+      characters = searchCharacters.data.data
+        .filter((c) => c.role === "Main")
+        .map((characterObject) => {
+          return {
+            characterName: characterObject.character.name,
+            characterImage: characterObject.character.images.jpg.image_url,
+          };
+        });
+      console.log(characters);
+    } catch (error) {
+      console.log(error);
+    }
+
     res.json({
       nameJapanese: manga.title_japanese,
       name: manga.title,
@@ -123,6 +144,7 @@ const displaySpecificManga = async (req, res) => {
       rank: manga.rank,
       status: manga.status,
       chapters: manga.chapters,
+      characters,
     });
   } catch (error) {
     console.log(error);
