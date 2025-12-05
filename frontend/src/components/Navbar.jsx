@@ -43,7 +43,7 @@ export default function Navbar() {
       {selectedDialog &&
         (selectedDialog === "sign-up" ? <SignUpPage /> : <LogInPage />)}
       {/* nav */}
-      <div className="flex justify-between h-15 items-center p-5 border-b-1 border-gray-300">
+      <div className="bg-white flex justify-between h-15 items-center p-5 border-b-1 border-gray-300">
         {/* //title & logo */}
         <Link to="">
           <div className="flex gap-2 hover:cursor-pointer items-center">

@@ -111,8 +111,9 @@ const displaySpecificManga = async (req, res) => {
   try {
     console.log(manga);
     res.json({
+      nameJapanese: manga.title_japanese,
       name: manga.title,
-      image: manga.images.jpg.image_url,
+      image: manga.images.jpg.large_image_url,
       authors: manga.authors.map((a) => a.name),
       score: manga.score,
       description: manga.synopsis,

@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useRef, use } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router";
 
 async function quickAddToList(manga, user) {
   console.log(user);
@@ -208,12 +209,14 @@ function MangaCard({ manga, user }) {
       key={manga.id}
       className=" flex flex-col border rounded-xl border-gray-300"
     >
-      <div className="rounded-xl aspect-3/4 overflow-hidden cursor-pointer">
-        <img
-          src={manga.image}
-          className="object-cover hover:scale-105 transition-transform durection-300 w-full h-full rounded-t-xl"
-        ></img>
-      </div>
+      <Link to={`/mangas/${manga.id}`}>
+        <div className="rounded-xl aspect-3/4 overflow-hidden cursor-pointer">
+          <img
+            src={manga.image}
+            className="object-cover hover:scale-105 transition-transform durection-300 w-full h-full rounded-t-xl"
+          ></img>
+        </div>
+      </Link>
       <div className="flex flex-col px-3 pt-3 [&>div]:pb-2">
         <div className="[&:last-child]:pb-6 flex-1 ">
           {/* name of manga */}
