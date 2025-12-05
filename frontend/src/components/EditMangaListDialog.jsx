@@ -125,7 +125,7 @@ export default function EditMangaListDialog({
               Delete
             </button>
             <button
-              className="rounded-md px-2 py-1 bg-black text-white"
+              className="rounded-md px-2 py-1 main text-white"
               onClick={async (e) => {
                 e.preventDefault();
                 const tempFormData = {

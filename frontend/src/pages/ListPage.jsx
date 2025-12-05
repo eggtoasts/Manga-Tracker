@@ -94,6 +94,22 @@ export default function ListPage() {
     }
   }
 
+  function readingStatusColor(type) {
+    switch (type) {
+      case "reading":
+        return "bg-blue-400";
+      case "plan_to_read":
+        return "bg-gray-400";
+      case "completed":
+        return "bg-green-400";
+      case "on_hold":
+        return "bg-yellow-400";
+      case "dropped":
+        return "bg-red-400";
+    }
+    return "";
+  }
+
   return (
     <>
       {currentMangaBeingEdited && (
@@ -119,7 +135,7 @@ export default function ListPage() {
       <div className="mx-25">
         {/* filters + layout*/}
         <div>
-          <div className="text-gray-400 z-1 relative [&_button]:px-4 [&_button]:font-bold [&_button]:transition-all duration-200  gap-3 flex bg-gray-100 py-1.5 px-5 w-max">
+          <div className="text-gray-400 z-1 relative [&_button]:hover:cursor-pointer [&_button]:px-4 [&_button]:font-bold [&_button]:transition-all duration-200  gap-3 flex bg-gray-100 py-1.5 px-5 w-max">
             <button
               onClick={() => {
                 setFilterType("all");
@@ -189,10 +205,12 @@ export default function ListPage() {
           </div>
         </div>
 
-        <div className="table w-full">
-          <tr className="text-sm ">
+        <div className="border-collapse table w-full mt-5">
+          <tr className="border-purple-300  border text-sm h-10 [&_th]:py-2 bg-purple-200">
+            <th className="min-w-0.5"> </th>
             <th> # </th>
-            <th className="w-6.5/10 "> Manga </th>
+
+            <th className="w-[600px] "> Manga </th>
             <th> Rating </th>
             <th> Chapters </th>
             <th> Review </th>
@@ -203,12 +221,19 @@ export default function ListPage() {
             if (filterType !== "all" && manga.reading_status !== filterType)
               return;
             return (
-              <tr key={manga.manga_id} className="[&_th]:align-middle">
-                <th className="">
-                  <div className="text-center">{index + 1}</div>
+              <tr
+                key={manga.manga_id}
+                className="border-gray-300 border [&_th]:align-middle"
+              >
+                <th className={`${readingStatusColor(manga.reading_status)}`}>
+                  <div className="w-full"></div>
                 </th>
+                <th className="">
+                  <div className="text-center font-medium">{index + 1}</div>
+                </th>
+
                 <th>
-                  <div className="flex py-2 bg-gray-200">
+                  <div className="flex py-2 ">
                     <img
                       src={manga.cover_image}
                       className=" h-20 mx-3 rounded-xl object-cover"
@@ -216,8 +241,12 @@ export default function ListPage() {
                     <div className="text-start flex flex-col ">
                       <div className="flex gap-2">
                         <p className="font-semibold">{manga.name}</p>
-                        <p className="font-normal">{manga.reading_status}</p>
-                        <p className="font-normal">{manga.manga_status}</p>
+                        <div>
+                          <div className="text-sm flex items-center bg-gray-300 px-2 rounded">
+                            <p className="rounded w-1.5 h-1.5 mr-2 bg-red-600"></p>
+                            <p className="font-normal">{manga.manga_status}</p>
+                          </div>
+                        </div>
                       </div>
                       <p className="font-light">{manga.authors}</p>
                       <p className="font-light text-sm whitespace-pre-line">
@@ -230,17 +259,19 @@ export default function ListPage() {
                   <span>
                     {manga.user_rating == null ? "-" : manga.user_rating}{" "}
                   </span>
-                  /10
                 </th>
                 <th>
-                  {manga.chapters_read}/{manga.total_chapters}
+                  <p className="font-normal">
+                    <span className="font-medium">{manga.chapters_read}</span>/
+                    {manga.total_chapters}
+                  </p>
                 </th>
-                <th>
-                  <div className="h-full flex justify-center items-center">
+                <th className="bg-purple-50">
+                  <div className="h-full flex justify-center items-center ">
                     <TextAlignStart className="h-5" />
                   </div>
                 </th>
-                <th className="">
+                <th className="bg-purple-50 ">
                   <div className="h-full flex justify-center items-center">
                     <Pencil
                       onClick={() => {

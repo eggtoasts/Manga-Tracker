@@ -45,11 +45,13 @@ export default function Navbar() {
       {/* nav */}
       <div className="flex justify-between h-15 items-center p-5 border-b-1 border-gray-300">
         {/* //title & logo */}
-        <div className="flex gap-2 hover:cursor-pointer items-center">
-          <img width={70} src={icon}></img>
-          <div className="titleFont text-2xl">MangaList</div>
-        </div>
+        <Link to="">
+          <div className="flex gap-2 hover:cursor-pointer items-center">
+            <img width={70} src={icon} />
 
+            <div className="titleFont text-2xl">MangaList</div>
+          </div>
+        </Link>
         <ul className="flex gap-3  [&_button]:hover:cursor-pointer [&_button]:rounded-md [&_button]:font-medium [&_button]:px-2 [&_button]:py-2  [&_button]:text-xs [&_button]:justify-center">
           {/* //navigation links */}
 
