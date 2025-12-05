@@ -61,6 +61,7 @@ export default function ListPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentMangaBeingEdited, setCurrentMangaBeingEdited] = useState(null);
   const { user } = use(AuthContext);
+  const [filterType, setFilterType] = useState("all");
 
   //on mount + if user is logged in, it should fetch user's mangaLists.
   useEffect(() => {
@@ -106,7 +107,9 @@ export default function ListPage() {
         <div className="flex">
           <div className="">
             <h1 className="text-lg font-medium">My Manga List</h1>
-            <h2 className="text-2xs text-gray-800">Tracking 0 manga</h2>
+            <h2 className="text-2xs text-gray-800">
+              Tracking {mangaList.length ? mangaList.length : 0} manga
+            </h2>
           </div>
         </div>
         <div className="w-fill flex items-center rounded-bl-sm bg-gray-100 ">
@@ -120,13 +123,19 @@ export default function ListPage() {
         {/* filters + layout*/}
         <div>
           <div className="flex gap-3">
-            <button>All</button>
-            <button>Reading</button>
-            <button>Plan To Read</button>
-            <button>Completed</button>
-            <button>On Hold</button>
-            <button>Re-Reading</button>
-            <button>Dropped</button>
+            <button onClick={() => setFilterType("all")}>All</button>
+            <button onClick={() => setFilterType("reading")}>Reading</button>
+            <button onClick={() => setFilterType("plan_to_read")}>
+              Plan To Read
+            </button>
+            <button onClick={() => setFilterType("completed")}>
+              Completed
+            </button>
+            <button onClick={() => setFilterType("on_hold")}>On Hold</button>
+            <button onClick={() => setFilterType("re_reading")}>
+              Re-Reading
+            </button>
+            <button onClick={() => setFilterType("dropped")}>Dropped</button>
           </div>
 
           <div className="flex">
@@ -150,6 +159,8 @@ export default function ListPage() {
           </tr>
 
           {mangaList.map((manga, index) => {
+            if (filterType !== "all" && manga.reading_status !== filterType)
+              return;
             return (
               <tr key={manga.manga_id} className="[&_th]:align-middle">
                 <th className="">
@@ -168,7 +179,9 @@ export default function ListPage() {
                         <p className="font-normal">{manga.manga_status}</p>
                       </div>
                       <p className="font-light">{manga.authors}</p>
-                      <p className="font-light text-sm">{manga.notes || " "}</p>
+                      <p className="font-light text-sm whitespace-pre-line">
+                        {manga.notes || " "}
+                      </p>
                     </div>
                   </div>
                 </th>
