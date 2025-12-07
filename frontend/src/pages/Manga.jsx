@@ -47,6 +47,10 @@ export default function Manga() {
               src={manga.image}
               className="left-35 top-5 absolute shadow-md w-50 rounded"
             ></img>
+
+            <h1 className="left-90 bottom-2 z-1 absolute text-1xl font-normal text-white">
+              <p>{manga.authors}</p>
+            </h1>
           </div>
         </div>
 
@@ -57,41 +61,81 @@ export default function Manga() {
               Add To List
             </buttons>
 
-            <buttons className="flex gap-2 main font-medium rounded text-white px-2 py-2">
+            <buttons className="flex gap-2 border-1  font-medium rounded text- px-2 py-2">
               Add a Review <PenBox></PenBox>
             </buttons>
+          </div>
+
+          {/* for easy viewing */}
+          <div className="ml-90 flex gap-2">
+            <div>Overview</div>
+            <div>Reviews</div>
+            <div>Characters</div>
+            <div>Read</div>
           </div>
         </div>
 
         {/* Lower half of page */}
-        <div className="bg-['#F9FAFB'] grid grid-cols-[360px_1fr] py-4">
+        <div className="bg-gray-200 grid grid-cols-[360px_1fr] py-4 ">
           {/* left col of page */}
-          <div>
-            <p>Quick Sypnosis:</p>
+          <div className="flex flex-col items-center ">
+            <div className="bg-white rounded p-5 ml-30 w-45 text-sm">
+              <p className="font-bold">Quick Sypnosis:</p>
+
+              <p>Genres</p>
+              <div className="flex gap-2 flex-wrap">
+                {manga.genres &&
+                  manga.genres.map((genre) => {
+                    return (
+                      <>
+                        <p>{genre}</p>
+                      </>
+                    );
+                  })}
+              </div>
+
+              <p className="font-bold">Release date</p>
+            </div>
           </div>
 
           {/* right column of page */}
-          <div className="bg-white rounded">
-            <h1 className="font-bold text-xl">Overview</h1>
-            <p>{manga.description}</p>
+          <div className="flex mr-35 gap-2 flex-col mx-10 [&>div]:p-5">
+            <div className="bg-white rounded">
+              <h1 className="font-bold text-xl">Overview</h1>
+              <p>{manga.description}</p>
+            </div>
 
-            <h1 className="font-bold text-xl">Reviews </h1>
+            <div className="bg-white rounded">
+              <h1 className="font-bold text-xl">Reviews </h1>
+              <p>Coming soon.</p>
+            </div>
 
-            <h1 className="font-bold text-xl">Characters</h1>
-            <div className="flex">
-              {manga.characters
-                ? manga.characters.map((c) => {
+            <div className="bg-white rounded">
+              <h1 className="font-bold text-xl">Characters</h1>
+              <div className=" grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] overflow-auto">
+                {manga.characters &&
+                  manga.characters.map((c) => {
                     return (
                       <>
-                        <img
-                          className="rounded object-cover h-16 w-16 "
-                          src={c.characterImage}
-                        ></img>
-                        <p> {c.characterName}</p>
+                        <div className="flex justify-content items-center flex-col">
+                          <img
+                            className="rounded object-cover flex-0"
+                            src={c.characterImage}
+                          ></img>
+
+                          <p className="mx-auto text-center">
+                            {" "}
+                            {c.characterName}
+                          </p>
+                        </div>
                       </>
                     );
-                  })
-                : ""}
+                  })}
+              </div>
+            </div>
+
+            <div className="bg-white rounded">
+              <h1 className="font-bold text-xl">Read Online</h1>
             </div>
           </div>
         </div>
