@@ -1,6 +1,29 @@
 import { sql } from "../config/db.js";
 
 //deleting a manga from a user's list
+const deleteMangaFromUserList = async (req, res) => {
+  const userId = req.user.id;
+
+  const { mangaId } = req.params;
+  if (!mangaId) {
+    return res.status(400).json({ error: "Missing manga ID for deletion." });
+  }
+
+  try {
+    const result = await sql`
+      DELETE FROM user_manga_list
+      WHERE user_id = ${userId} AND manga_id = ${mangaId}
+      RETURNING *;
+    `;
+    res.status(200).json({
+      message: "Manga removed from user list.",
+      deleted: result[0],
+    });
+  } catch (err) {
+    console.error("Error deleting user manga list:", err);
+    res.status(500).json({ error: "Failed to delete manga entry." });
+  }
+};
 
 //editing a manga from a user's list
 const editMangaFromUserList = async (req, res) => {
@@ -245,6 +268,7 @@ const controllers = {
   addMangaToUserList,
   getAllMangasFromUserList,
   editMangaFromUserList,
+  deleteMangaFromUserList,
 };
 
 export default controllers;

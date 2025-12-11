@@ -25,6 +25,12 @@ mangaRouter.post(
   controllers.addMangaToUserList
 );
 
+mangaRouter.delete(
+  "/userlist/:mangaId",
+  userControllers.authenticateToken,
+  controllers.deleteMangaFromUserList
+);
+
 // Get all mangas
 mangaRouter.get("/manga", controllers.getAllMangas);
 

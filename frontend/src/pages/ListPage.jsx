@@ -5,6 +5,29 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import EditMangaListDialog from "../components/EditMangaListDialog";
 
+//deleting manga
+async function deleteManga(user, mangaId) {
+  const ENDPOINT = `http://localhost:3000/userlist/${mangaId}`;
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    console.log("JWT missing. log in again.");
+    return;
+  }
+
+  try {
+    const response = await axios.delete(ENDPOINT, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(response.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 //for editing manga
 async function editManga(user, mangaId, updatedFields) {
   const ENDPOINT = `http://localhost:3000/userlist/${mangaId}`;
@@ -94,6 +117,15 @@ export default function ListPage() {
     }
   }
 
+  async function onDelete(mangaId) {
+    try {
+      await deleteManga(user, mangaId);
+      await getMangaList(user, setMangaList);
+    } catch (err) {
+      console.error("Failed to delete list.", err);
+    }
+  }
+
   function readingStatusColor(type) {
     switch (type) {
       case "reading":
@@ -129,6 +161,7 @@ export default function ListPage() {
           manga={currentMangaBeingEdited}
           setCurrentMangaBeingEdited={setCurrentMangaBeingEdited}
           onSave={saveEdit}
+          onDelete={onDelete}
         />
       )}
       <div className="mx-5 p-5 mt-4 h-25 flex content-center w-fill justify-between flex-col">

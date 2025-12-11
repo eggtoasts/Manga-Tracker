@@ -9,6 +9,7 @@ export default function EditMangaListDialog({
   manga,
   setCurrentMangaBeingEdited,
   onSave,
+  onDelete,
 }) {
   //if pressed submit on form, send a update request
   //if "delete", send delete request
@@ -130,8 +131,9 @@ export default function EditMangaListDialog({
           <div className="mt-4 flex gap-2 ml-auto">
             <button
               className="rounded-md px-3 py-1 bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.preventDefault();
+                await onDelete(manga.manga_id);
                 setCurrentMangaBeingEdited(null);
               }}
             >
