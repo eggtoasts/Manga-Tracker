@@ -109,18 +109,21 @@ export default function Manga() {
               <div className="bg-white rounded-lg p-4 w-64 text-sm shadow">
                 <p className="font-bold mb-2">Quick Synopsis:</p>
 
-                <p className="font-bold mt-4">Genres</p>
+                <p className="text-xs font-medium mb-1">Genres</p>
                 <div className="flex gap-2 flex-wrap">
                   {manga.genres &&
                     manga.genres.map((genre) => (
-                      <span className="bg-blue-200 px-2 py-1 rounded text-xs">
+                      <span className="bg-blue-200 px-2 py-[2px] rounded text-xs">
                         {genre}
                       </span>
                     ))}
                 </div>
 
-                <p className="font-bold mt-4">Release date</p>
-                {/* add release date here if API provides it */}
+                <p className="text-xs font-medium mt-2 mb-1">Release date</p>
+
+                <p className="text-xs font-medium mt-2 mb-1">Total Chapters</p>
+
+                <p className="text-xs font-medium mt-2 mb-1">Global Ranking:</p>
               </div>
             </div>
 
