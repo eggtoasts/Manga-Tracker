@@ -284,19 +284,26 @@ export default function ListPage() {
                       className=" h-20 mx-3 rounded-xl object-cover"
                     />
                     <div className="text-start flex flex-col ">
-                      <div className="flex gap-2">
-                        <p className="font-semibold">{manga.name}</p>
-                        <div>
-                          <div className="text-sm flex items-center bg-gray-200 px-2 rounded">
-                            <p
-                              className={`rounded w-1.5 h-1.5 mr-2 ${mangaStatusColor(
-                                manga.manga_status
-                              )}`}
-                            ></p>
-                            <p className="font-normal">{manga.manga_status}</p>
-                          </div>
-                        </div>
+                      <div className="">
+                        <span className="mr-2 font-semibold">
+                          {manga.name}
+                          <span className="relative">
+                            <div className="left-2 top-[1.5px] absolute inline-flex ">
+                              <div className="text-sm flex items-center content-center bg-gray-200 px-2 rounded">
+                                <p
+                                  className={`rounded w-1.5 h-1.5 mr-2 ${mangaStatusColor(
+                                    manga.manga_status
+                                  )}`}
+                                ></p>
+                                <p className="font-normal w-max">
+                                  {manga.manga_status}
+                                </p>
+                              </div>
+                            </div>
+                          </span>
+                        </span>
                       </div>
+
                       <p className="font-light">
                         {manga.authors.map((author) => author)}
                       </p>
