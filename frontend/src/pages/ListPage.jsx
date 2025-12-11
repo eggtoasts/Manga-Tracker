@@ -135,8 +135,8 @@ export default function ListPage() {
         {/* title & bio */}
         <div className="flex">
           <div className="">
-            <h1 className="text-lg font-medium">My Manga List</h1>
-            <h2 className="text-2xs text-gray-800">
+            <h1 className="text-xl font-semibold">My Manga List</h1>
+            <h2 className="text-2xs text-gray-600">
               Tracking {mangaList.length ? mangaList.length : 0} manga
             </h2>
           </div>
@@ -218,7 +218,7 @@ export default function ListPage() {
         </div>
 
         <div className="border-collapse table w-full mt-5">
-          <tr className="border-purple-300  border text-sm h-10 [&_th]:py-2 bg-purple-200">
+          <tr className="border-[#2e51a280] border text-sm h-10 [&_th]:py-2 bg-[#E1E7F5]">
             <th className="min-w-0.5"> </th>
             <th> # </th>
 
@@ -284,12 +284,12 @@ export default function ListPage() {
                     {manga.total_chapters}
                   </p>
                 </th>
-                <th className="bg-purple-50">
+                <th className="bg-gray-50">
                   <div className="h-full flex justify-center items-center ">
                     <TextAlignStart className="h-5" />
                   </div>
                 </th>
-                <th className="bg-purple-50 ">
+                <th className="bg-gray-50 ">
                   <div className="h-full flex justify-center items-center">
                     <Pencil
                       onClick={() => {

@@ -83,7 +83,7 @@ export default function LogInPage() {
             name="password"
           />
 
-          <button className="mr-auto px-3 py-1 bg-black rounded-sm text-white">
+          <button className="mt-2 mr-auto px-3 py-1 main rounded-sm text-white">
             Sign In
           </button>
 

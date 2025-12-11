@@ -38,8 +38,8 @@ export default function RecPage() {
         {/* title & bio */}
         <div className="flex">
           <div className="">
-            <h1 className="text-lg font-medium">Community Reviews</h1>
-            <h2 className="text-2xs text-gray-800">
+            <h1 className="text-xl font-semibold">Community Reviews</h1>
+            <h2 className="text-2xs text-gray-600">
               Discover manga reviewed by the community
             </h2>
           </div>

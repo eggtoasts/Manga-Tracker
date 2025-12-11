@@ -8,49 +8,7 @@ import { useState } from "react";
 import { useRef, use } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router";
-
-async function quickAddToList(manga, user) {
-  console.log(user);
-  if (!user || !user.id) {
-    console.log("Please login to add manga to your list");
-    return;
-  }
-
-  const ENDPOINT = "http://localhost:3000/userlist";
-  const token = localStorage.getItem("accessToken");
-
-  if (!token) {
-    console.log("JWT missing. log in again.");
-    return;
-  }
-
-  try {
-    await axios.post(
-      ENDPOINT,
-      {
-        mangaId: manga.id,
-        name: manga.name,
-        description: manga.description,
-        cover_image: manga.image,
-        authors: manga.authors,
-        rating: manga.score,
-        genres: manga.genres,
-        total_chapters: manga.chapters,
-        manga_status: manga.status,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    console.log(`Add Success! "${manga.name}" added as "Reading".`);
-  } catch (error) {
-    console.log("add failed:", error);
-    console.log("Failed to add manga. Check console for details.");
-  }
-}
+import { quickAddToList } from "../utils/quickAddToList";
 
 async function fetchSearchData(query, setLoading, setError) {
   setLoading(true);
@@ -116,8 +74,8 @@ export default function MangasPage() {
         {/* title & bio */}
         <div className="flex">
           <div className="">
-            <h1 className="text-lg font-medium">Browse Manga</h1>
-            <h2 className="text-2xs text-gray-800">
+            <h1 className="text-xl font-semibold">Browse Manga</h1>
+            <h2 className="text-2xs text-gray-600">
               Discover and add manga to your list!
             </h2>
           </div>
@@ -196,13 +154,8 @@ export default function MangasPage() {
 }
 
 function MangaCard({ manga, user }) {
-  function showGenrePlus(index) {
-    if (index === 3) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  const visibleGenres = manga.genres.slice(0, 3);
+  const remainingCount = manga.genres.length - visibleGenres.length;
 
   return (
     <div
@@ -219,8 +172,8 @@ function MangaCard({ manga, user }) {
       </Link>
       <div className="flex flex-col px-3 pt-3 [&>div]:pb-2">
         <div className="[&:last-child]:pb-6 flex-1 ">
-          {/* name of manga */}
-          <h3 className="line-clamp-1 mb-2 cursor-pointer hover:text-primary">
+          {/* title */}
+          <h3 className="font-semibold text-lg line-clamp-1 mb-1 hover:text-primary cursor-pointer">
             {manga.name}
           </h3>
 
@@ -229,33 +182,34 @@ function MangaCard({ manga, user }) {
             {manga.description}
           </p>
 
-          {/* rating (if the api has any) */}
-          <div className="flex gap-2 ">
-            <span className="h-min w-max flex items-center gap-1 sub rounded-full w-min px-1 text-sm">
-              <Star size={10} color={"#9708fe"} fill={"#9708fe"} />
+          {/* rating + chapters */}
+          <div className="flex gap-2 mb-3">
+            <span className="flex items-center gap-1 bg-blue-50 main-text px-2 py-0.5 rounded-full text-xs font-medium">
+              <Star size={12} fill="#2E51A2" color="#2E51A2" />
               {manga.score}
             </span>
 
-            {/* pages */}
-            <span className="h-min sub rounded-full w-max px-1 text-sm">
-              {manga.chapters ? manga.chapters + " ch" : "Ongoing"}
+            <span className="bg-gray-100 px-2 py-0.5 rounded-full text-xs font-medium text-gray-700">
+              {manga.chapters ? `${manga.chapters} ch` : "Ongoing"}
             </span>
           </div>
+
           {/* genres */}
-          <div className="flex flex-wrap gap-1 pt-3">
-            {manga.genres
-              .slice(0, 4)
-              .map((g, index) =>
-                !showGenrePlus(index) ? (
-                  <span className=" px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
-                    {g}
-                  </span>
-                ) : (
-                  <span className="px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
-                    {`+${manga.genres.length - 3}`}
-                  </span>
-                )
-              )}
+          <div className="flex flex-wrap gap-1 mb-2">
+            {visibleGenres.map((g) => (
+              <span
+                key={g}
+                className="px-2 py-0.5 bg-gray-100 text-gray-700 rounded-full text-xs"
+              >
+                {g}
+              </span>
+            ))}
+
+            {remainingCount > 0 && (
+              <span className="px-2 py-0.5 bg-gray-200 text-gray-600 rounded-full text-xs">
+                +{remainingCount}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -264,7 +218,7 @@ function MangaCard({ manga, user }) {
           e.stopPropagation();
           quickAddToList(manga, user);
         }}
-        className="mt-auto mb-3 mx-3 p-2 main text-white  rounded-full hover:cursor-pointer"
+        className="mt-auto mb-3 mx-3 p-2 main text-white rounded-sm hover:cursor-pointer"
       >
         Add to List
       </button>

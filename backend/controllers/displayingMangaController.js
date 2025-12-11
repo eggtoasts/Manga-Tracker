@@ -80,6 +80,7 @@ const searchManga = async (req, res) => {
   try {
     let searchMangaArray = searchMangaData.map((manga) => {
       return {
+        id: manga.mal_id,
         name: manga.title,
         image: manga.images.jpg.image_url,
         authors: manga.authors.map((a) => a.name),
@@ -132,6 +133,7 @@ const displaySpecificManga = async (req, res) => {
     }
 
     res.json({
+      id: manga.mal_id,
       nameJapanese: manga.title_japanese,
       name: manga.title,
       image: manga.images.jpg.large_image_url,

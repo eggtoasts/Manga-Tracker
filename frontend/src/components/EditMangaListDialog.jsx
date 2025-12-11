@@ -41,37 +41,44 @@ export default function EditMangaListDialog({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="w-100 rounded-xl p-3 bg-white fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10">
-        <div className="flex b border-b-gray-500 border-b">
-          <h1>Edit Manga: </h1>
+      <div className="w-full max-w-md rounded-xl p-4 bg-white shadow-lg">
+        <div className="flex border-b border-b-gray-300 pb-2">
+          <h1 className="text-lg font-semibold">Edit Manga: </h1>
           <button
-            className="hover:cursor-pointer flex items-center justify-center gap-2 ml-auto"
+            className="hover:cursor-pointer flex items-center justify-center gap-2 ml-auto text-gray-500 hover:text-black"
             onClick={() => setCurrentMangaBeingEdited(null)}
           >
-            <X size={15} />
+            <X size={18} />
           </button>
         </div>
 
-        <div className="mt-2 flex">
-          <img className="h-40" src={manga.cover_image} />
-          <div className="ml-2 flex flex-col">
-            <h1 className="text-md font-semibold">{manga.name}</h1>
-            <h1 className="text-sm flex gap-1">
+        <div className="mt-3 flex gap-3">
+          <img
+            className="h-40 w-28 object-cover rounded-md"
+            src={manga.cover_image}
+          />
+          <div className="flex flex-col">
+            <h1 className="text-md font-semibold leading-tight">
+              {manga.name}
+            </h1>
+            <h1 className="text-sm text-gray-600 flex gap-1 flex-wrap">
               {manga.authors.map((author) => {
                 return <span>{author}</span>;
               })}
             </h1>
-            <h1>{manga.global_rating}</h1>
+            <h1 className="text-sm font-medium text-gray-700">
+              Global Rating: {manga.global_rating}
+            </h1>
           </div>
         </div>
 
-        <form className="[&_input]:rounded [&_input]:bg-gray-200 [&_label]:mt-2 [&_label]:font-semibold flex flex-col">
+        <form className="[&_input]:rounded [&_input]:bg-gray-200 [&_input]:p-1 [&_label]:mt-3 [&_label]:font-semibold [&_select]:p-1 flex flex-col">
           <label>Status:</label>
           <select
             onChange={(e) => handleChange(e)}
             value={formData.readingStatus}
             name="readingStatus"
-            className=" bg-gray-200 rounded-md"
+            className="bg-gray-200 rounded-md p-2"
           >
             <option value="reading">Reading</option>
             <option value="completed">Completed</option>
@@ -79,8 +86,9 @@ export default function EditMangaListDialog({
             <option value="on_hold">On Hold</option>
             <option value="dropped">Dropped</option>
           </select>
+
           <label>Chapters Read</label>
-          <div className="rounded-md ">
+          <div className="flex items-center gap-1 bg-gray-200 rounded-md p-1">
             <input
               name="chaptersRead"
               defaultValue={manga.chapters_read}
@@ -89,11 +97,15 @@ export default function EditMangaListDialog({
               max={maxChapters}
               onChange={(e) => handleChange(e)}
               value={formData.chaptersRead}
+              className="bg-transparent flex-1"
             />
-            <span>/ {manga.total_chapters}</span>
+            <span className="text-sm text-gray-600">
+              / {manga.total_chapters}
+            </span>
           </div>
+
           <label>Your Score (1-10)</label>
-          <div className="rounded-md">
+          <div className="rounded-md p-1 bg-gray-200">
             <input
               defaultValue={manga.user_rating || 0}
               type="number"
@@ -102,6 +114,7 @@ export default function EditMangaListDialog({
               name="userRating"
               onChange={(e) => handleChange(e)}
               value={formData.userRating}
+              className="bg-transparent w-full"
             />
           </div>
 
@@ -111,12 +124,12 @@ export default function EditMangaListDialog({
             onChange={(e) => handleChange(e)}
             value={formData.notes}
             defaultValue={manga.notes}
-            className=" bg-gray-200 rounded"
+            className="bg-gray-200 rounded p-2 min-h-[80px]"
           />
 
-          <div className="mt-2 flex gap-2 ml-auto ">
+          <div className="mt-4 flex gap-2 ml-auto">
             <button
-              className=" rounded-md px-2 py-1 bg-gray-300"
+              className="rounded-md px-3 py-1 bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
               onClick={(e) => {
                 e.preventDefault();
                 setCurrentMangaBeingEdited(null);
@@ -125,7 +138,7 @@ export default function EditMangaListDialog({
               Delete
             </button>
             <button
-              className="rounded-md px-2 py-1 main text-white"
+              className="rounded-md px-3 py-1 main text-white hover:opacity-90 transition"
               onClick={async (e) => {
                 e.preventDefault();
                 const tempFormData = {

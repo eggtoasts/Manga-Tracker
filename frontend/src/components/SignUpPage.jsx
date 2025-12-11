@@ -84,7 +84,7 @@ export default function SignUpPage() {
             <p className="text-red-500">{passwordError}</p>
           )}
 
-          <button className="mr-auto px-3 py-1 bg-black text-white rounded-sm">
+          <button className="mr-auto px-3 py-1 main text-white rounded-sm">
             Sign Up
           </button>
         </form>

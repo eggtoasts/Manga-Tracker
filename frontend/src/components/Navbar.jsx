@@ -43,11 +43,11 @@ export default function Navbar() {
       {selectedDialog &&
         (selectedDialog === "sign-up" ? <SignUpPage /> : <LogInPage />)}
       {/* nav */}
-      <div className="bg-white flex justify-between h-15 items-center p-5 border-b-1 border-gray-300">
+      <div className="bg-white flex justify-between h-20 items-center p-5 border-b-1 border-gray-300">
         {/* //title & logo */}
         <Link to="">
-          <div className="flex gap-2 hover:cursor-pointer items-center">
-            <img width={70} src={icon} />
+          <div className="w-14 flex gap-2 hover:cursor-pointer items-center">
+            <img src={icon} />
 
             <div className="titleFont text-2xl">MangaList</div>
           </div>
@@ -101,7 +101,7 @@ export default function Navbar() {
           {/* sign in and sign up */}
 
           {user.username === "Guest" ? (
-            <div className="border-l border-l-gray-400/50 pl-3 flex gap-3">
+            <div className="border-l border-l-gray-400/50 pl-3 flex gap-3 items-center justify-center">
               <li>
                 <button
                   onClick={() => openForm("sign-in")}
