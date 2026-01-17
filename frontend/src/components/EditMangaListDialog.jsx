@@ -24,9 +24,6 @@ export default function EditMangaListDialog({
 
   function handleChange(e) {
     // important for not triggering a accidental deletion
-    if (e.type === "keydown") {
-      return;
-    }
     let { name, value } = e.target;
     let newValue = value;
     const { max } = e.target;
@@ -134,9 +131,12 @@ export default function EditMangaListDialog({
 
           <div className="mt-4 flex gap-2 ml-auto">
             <button
+              type="button"
               className="cursor-pointer rounded-md px-3 py-1 bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
               onClick={async (e) => {
                 e.preventDefault();
+                await onDelete(manga.manga_id);
+                setCurrentMangaBeingEdited(null);
               }}
             >
               Delete

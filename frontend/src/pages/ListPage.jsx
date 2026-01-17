@@ -292,7 +292,7 @@ export default function ListPage() {
                               <div className="text-sm flex items-center content-center bg-gray-200 px-2 rounded">
                                 <p
                                   className={`rounded w-1.5 h-1.5 mr-2 ${mangaStatusColor(
-                                    manga.manga_status
+                                    manga.manga_status,
                                   )}`}
                                 ></p>
                                 <p className="font-normal w-max">
