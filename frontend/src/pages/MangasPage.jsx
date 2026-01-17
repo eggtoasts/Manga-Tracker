@@ -91,7 +91,7 @@ export default function MangasPage() {
             const arr = await fetchSearchData(
               inputRef.current.value,
               setLoading,
-              setError
+              setError,
             );
             setSearchedMangas(arr);
             setBrowseType("Search");
@@ -102,7 +102,7 @@ export default function MangasPage() {
           <input ref={inputRef} type="text" className=" w-full py-1" />
         </form>
 
-        <div className="mt-5 flex bg-gray-300 py-[2px] px-1 w-max rounded-xl ">
+        <div className="mt-5 flex bg-gray-200 py-[2px] px-1 w-max rounded-xl ">
           <button
             onClick={() => {
               setBrowseType("Popular");

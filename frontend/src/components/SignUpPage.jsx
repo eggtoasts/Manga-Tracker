@@ -45,12 +45,12 @@ export default function SignUpPage() {
     <>
       <div className=" text-sm bg-white fixed top-[50%] left-[50%] z-50 w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg max-w-md">
         <form onSubmit={(e) => signUp(e)} className="flex flex-col gap-2">
-          <h2 className=" font-semibold">Create an Account</h2>
+          <h2 className=" font-bold">Create an Account</h2>
           <label className="font-semibold">Username</label>
           <input
             name="username"
             type="text"
-            placeholder="p"
+            placeholder=""
             className=" rounded-md border px-3 py-1 text-base"
             minLength={3}
             maxLength={25}
@@ -68,7 +68,7 @@ export default function SignUpPage() {
           <input
             name="password"
             type="password"
-            placeholder="p"
+            placeholder=""
             className=" rounded-md border px-3 py-1 text-base"
           />
 
@@ -76,7 +76,7 @@ export default function SignUpPage() {
           <input
             name="confirmPassword"
             type="password"
-            placeholder="p"
+            placeholder="Re-enter password"
             className=" rounded-md border px-3 py-1 text-base"
           />
 
@@ -84,7 +84,7 @@ export default function SignUpPage() {
             <p className="text-red-500">{passwordError}</p>
           )}
 
-          <button className="mr-auto px-3 py-1 main text-white rounded-sm">
+          <button className="mt-2 mr-auto px-3 py-1 main text-white rounded-sm">
             Sign Up
           </button>
         </form>

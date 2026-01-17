@@ -52,7 +52,7 @@ async function userRequest(username, password, setUser) {
   }
 }
 
-export default function LogInPage() {
+export default function LogInPage({ setSelectedDialog }) {
   const { user, setUser } = use(AuthContext);
   const logIn = async (e) => {
     e.preventDefault();
@@ -88,8 +88,15 @@ export default function LogInPage() {
           </button>
 
           <div>
-            <h3 className="text-gray-400">Don't have an Account?</h3>
-            <span className="font-semibold">Create one</span>
+            <h3 className="text-gray-400 mt-2">Don't have an Account?</h3>
+            <span
+              className="font-semibold cursor-pointer"
+              onClick={() => {
+                setSelectedDialog("sign-up");
+              }}
+            >
+              Create one
+            </span>
           </div>
         </form>
       </div>

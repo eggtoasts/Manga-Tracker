@@ -147,6 +147,7 @@ const displaySpecificManga = async (req, res) => {
       status: manga.status,
       chapters: manga.chapters,
       characters,
+      published: manga.published.prop.from,
     });
   } catch (error) {
     console.log(error);

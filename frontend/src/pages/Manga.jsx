@@ -108,7 +108,6 @@ export default function Manga() {
             <div className="flex flex-col items-center">
               <div className="bg-white rounded-lg p-4 w-64 text-sm shadow">
                 <p className="font-bold mb-2">Quick Synopsis:</p>
-
                 <p className="text-xs font-medium mb-1">Genres</p>
                 <div className="flex gap-2 flex-wrap">
                   {manga.genres &&
@@ -118,12 +117,17 @@ export default function Manga() {
                       </span>
                     ))}
                 </div>
-
-                <p className="text-xs font-medium mt-2 mb-1">Release date</p>
-
+                <p className="text-xs font-medium mt-2 mb-1">Release date</p>{" "}
+                <p className="text-xs">
+                  {manga.published.month}/{manga.published.day}/
+                  {manga.published.year}
+                </p>
                 <p className="text-xs font-medium mt-2 mb-1">Total Chapters</p>
-
-                <p className="text-xs font-medium mt-2 mb-1">Global Ranking:</p>
+                <p className="text-xs">{manga.chapters}</p>
+                <p className="text-xs font-medium mt-2 mb-1">Ranking (MAL)</p>
+                <p className="text-xs">#{manga.rank}</p>
+                <p className="text-xs font-medium mt-2 mb-1">Score (MAL):</p>
+                <p className="text-xs">{manga.score}</p>
               </div>
             </div>
 

@@ -41,7 +41,11 @@ export default function Navbar() {
   return (
     <>
       {selectedDialog &&
-        (selectedDialog === "sign-up" ? <SignUpPage /> : <LogInPage />)}
+        (selectedDialog === "sign-up" ? (
+          <SignUpPage />
+        ) : (
+          <LogInPage setSelectedDialog={setSelectedDialog} />
+        ))}
       {/* nav */}
       <div className="bg-white flex justify-between h-20 items-center p-5 border-b-1 border-gray-300">
         {/* //title & logo */}
@@ -52,7 +56,7 @@ export default function Navbar() {
             <div className="titleFont text-2xl">MangaList</div>
           </div>
         </Link>
-        <ul className="flex gap-3  [&_button]:hover:cursor-pointer [&_button]:rounded-md [&_button]:font-medium [&_button]:px-2 [&_button]:py-2  [&_button]:text-xs [&_button]:justify-center">
+        <ul className="flex gap-3  [&_button]:hover:cursor-pointer  [&_button]:font-medium [&_button]:px-2 [&_button]:py-2  [&_button]:text-xs [&_button]:justify-center">
           {/* //navigation links */}
 
           <li>
@@ -60,12 +64,12 @@ export default function Navbar() {
               <button
                 className={`${
                   currentPage === "/lists"
-                    ? "main"
-                    : "bg-white text-black border border-gray-300"
+                    ? " main "
+                    : " bg-white text-black border border-gray-300"
                 } text-amber-50 flex items-center min-w-20 `}
               >
                 <BookOpen size={iconsize} className="mr-2" />
-                My List
+                <p className="navFont text-sm">My List</p>
               </button>
             </Link>
           </li>
@@ -74,28 +78,29 @@ export default function Navbar() {
               <button
                 className={`${
                   currentPage === "/mangas"
-                    ? "main"
-                    : "bg-white text-black border border-gray-300"
+                    ? " main"
+                    : " bg-white text-black border border-gray-300"
                 } text-amber-50 flex items-center min-w-20 `}
               >
                 <Search size={iconsize} className="mr-2" />
-                Browse
+                <p className="navFont text-sm">Browse</p>
               </button>
             </Link>
           </li>
           <li>
-            <Link to="recs">
+            {/* Future feature (reviews) */}
+            {/* <Link to="recs">
               <button
                 className={`${
                   currentPage === "/recs"
-                    ? "main"
-                    : "bg-white text-black border border-gray-300"
+                    ? " main"
+                    : " bg-white text-black border border-gray-300"
                 } text-amber-50 flex items-center min-w-20 `}
               >
                 <Heart size={iconsize} className="mr-2" />
-                Reviews
+                <p className="navFont text-sm">Reviews</p>
               </button>
-            </Link>
+            </Link> */}
           </li>
 
           {/* sign in and sign up */}
@@ -105,17 +110,17 @@ export default function Navbar() {
               <li>
                 <button
                   onClick={() => openForm("sign-in")}
-                  className="border border-gray-300 text-black flex items-center min-w-20 "
+                  className="navFont border border-gray-300 text-black flex items-center min-w-20 "
                 >
-                  Sign In
+                  <p className="text-sm">Sign In</p>
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => openForm("sign-up")}
-                  className="main text-amber-50 flex items-center min-w-20 "
+                  className="navFont main text-amber-50 flex items-center min-w-20 "
                 >
-                  Create an Account
+                  <p className="text-sm">Create an Account</p>
                 </button>
               </li>
             </div>
