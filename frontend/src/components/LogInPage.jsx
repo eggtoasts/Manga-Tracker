@@ -4,7 +4,8 @@ import { AuthContext } from "../context/AuthContext";
 
 // gets user info!
 async function fetchUserInfo(setUser) {
-  const ENDPOINT = "http://localhost:3000/users/profile";
+  const ENDPOINT =
+    "https://manga-tracker-backend-al0s.onrender.com/users/profile";
 
   const token = localStorage.getItem("accessToken");
 
@@ -32,7 +33,8 @@ async function fetchUserInfo(setUser) {
 }
 
 async function userRequest(username, password, setUser) {
-  const ENDPOINT = "http://localhost:3000/users/login";
+  const ENDPOINT =
+    "https://manga-tracker-backend-al0s.onrender.com/users/login";
   try {
     const res = await axios.post(ENDPOINT, {
       username: username,

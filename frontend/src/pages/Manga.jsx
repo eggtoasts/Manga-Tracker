@@ -14,7 +14,7 @@ export default function Manga() {
 
   // on mount, get info on manga id
   useEffect(() => {
-    const ENDPOINT = `http://localhost:3000/mangas/${mangaId}`;
+    const ENDPOINT = `https://manga-tracker-backend-al0s.onrender.com/mangas/${mangaId}`;
     const getManga = async () => {
       try {
         setLoading(true);

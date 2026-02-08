@@ -3,7 +3,8 @@ import { useState } from "react";
 async function connectToSignUpRoute(username, email, password) {
   // tbh i dont think we rlly need email
   console.log(username, email, password);
-  const ENDPOINT = "http://localhost:3000/users/signup";
+  const ENDPOINT =
+    "https://manga-tracker-backend-al0s.onrender.com/users/signup";
   try {
     const res = await axios.post(ENDPOINT, {
       username: username,

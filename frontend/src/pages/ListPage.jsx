@@ -7,7 +7,7 @@ import EditMangaListDialog from "../components/EditMangaListDialog";
 
 //deleting manga
 async function deleteManga(user, mangaId) {
-  const ENDPOINT = `http://localhost:3000/userlist/${mangaId}`;
+  const ENDPOINT = `https://manga-tracker-backend-al0s.onrender.com/userlist/${mangaId}`;
   const token = localStorage.getItem("accessToken");
 
   if (!token) {
@@ -30,7 +30,7 @@ async function deleteManga(user, mangaId) {
 
 //for editing manga
 async function editManga(user, mangaId, updatedFields) {
-  const ENDPOINT = `http://localhost:3000/userlist/${mangaId}`;
+  const ENDPOINT = `https://manga-tracker-backend-al0s.onrender.com/userlist/${mangaId}`;
   const token = localStorage.getItem("accessToken");
 
   if (!token) {
@@ -57,7 +57,7 @@ async function getMangaList(user, setMangaList) {
     return;
   }
 
-  const ENDPOINT = "http://localhost:3000/userlist";
+  const ENDPOINT = "https://manga-tracker-backend-al0s.onrender.com/userlist";
   const token = localStorage.getItem("accessToken");
 
   if (!token) {

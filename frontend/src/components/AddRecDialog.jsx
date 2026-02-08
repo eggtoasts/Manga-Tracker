@@ -7,7 +7,7 @@ import { useState } from "react";
 async function fetchSearchData(query, setLoading, setError) {
   setLoading(true);
   console.log(query);
-  const ENDPOINT = `http://localhost:3000/api/search?title=${query}`;
+  const ENDPOINT = `https://manga-tracker-backend-al0s.onrender.com/api/search?title=${query}`;
 
   try {
     const res = await axios.get(ENDPOINT);
@@ -65,7 +65,7 @@ export default function AddRecDialog({ closeDialog, setSelectedManga }) {
               const arr = await fetchSearchData(
                 inputRef.current.value,
                 setLoading,
-                setError
+                setError,
               );
               setSearchedMangas(arr);
             }}
@@ -132,7 +132,7 @@ export default function AddRecDialog({ closeDialog, setSelectedManga }) {
                                 <span className="px-1 bg-gray-200/20 rounded-2xl text-xs font-light">
                                   {`+${manga.genres.length - 3}`}
                                 </span>
-                              )
+                              ),
                             )}
                         </div>
                       </div>

@@ -13,7 +13,7 @@ import { quickAddToList } from "../utils/quickAddToList";
 async function fetchSearchData(query, setLoading, setError) {
   setLoading(true);
   console.log(query);
-  const ENDPOINT = `http://localhost:3000/api/search?title=${query}`;
+  const ENDPOINT = `https://manga-tracker-backend-al0s.onrender.com/api/search?title=${query}`;
 
   try {
     const res = await axios.get(ENDPOINT);
@@ -26,7 +26,7 @@ async function fetchSearchData(query, setLoading, setError) {
 }
 
 async function fetchPopularMangas() {
-  const ENDPOINT = "http://localhost:3000/api/mangas";
+  const ENDPOINT = "https://manga-tracker-backend-al0s.onrender.com/api/mangas";
 
   try {
     const res = await axios.get(ENDPOINT);
