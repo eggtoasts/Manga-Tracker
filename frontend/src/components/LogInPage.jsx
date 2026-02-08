@@ -26,7 +26,7 @@ async function fetchUserInfo(setUser) {
     const data = response.data.user;
     setUser(data);
 
-    console.log(data);
+    // console.log(data);
   } catch (err) {
     console.log(err);
   }
@@ -41,11 +41,11 @@ async function userRequest(username, password, setUser) {
       password: password,
     });
     const data = res.data;
-    console.log(data);
+    // console.log(data);
 
     // If user has a JWT, we store it in local storage.
     if (data.accessToken) {
-      console.log(data.accessToken);
+      // console.log(data.accessToken);
       await fetchUserInfo(setUser);
       localStorage.setItem("accessToken", data.accessToken);
     }

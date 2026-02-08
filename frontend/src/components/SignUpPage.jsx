@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 async function connectToSignUpRoute(username, email, password) {
   // tbh i dont think we rlly need email
-  console.log(username, email, password);
+  // console.log(username, email, password);
   const ENDPOINT =
     "https://manga-tracker-backend-al0s.onrender.com/users/signup";
   try {
@@ -11,9 +11,9 @@ async function connectToSignUpRoute(username, email, password) {
       password: password,
     });
     const data = res.data;
-    console.log(data);
+    // console.log(data);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
@@ -23,7 +23,7 @@ export default function SignUpPage() {
   const signUp = async (e) => {
     e.preventDefault();
 
-    console.log(e.target.password.value, e.target.confirmPassword.value);
+    // console.log(e.target.password.value, e.target.confirmPassword.value);
 
     if (!e.target.password.value) {
       setPasswordError("Please enter a password.");
